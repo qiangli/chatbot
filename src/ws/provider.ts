@@ -1,15 +1,9 @@
 // provider.ts
 
-// https://github.com/react-chatbotify-plugins/llm-connector.git
-
 import { type Provider } from "@rcb-plugins/llm-connector";
 import { type Message } from 'react-chatbotify';
 
 import { type WsMessage, sendWsMessage } from './manager';
-
-/**
- * Message format. https://github.com/qiangli/ai
- */
 
 type CustomProviderConfig = {
   baseUrl?: string;
@@ -20,16 +14,15 @@ type CustomProviderConfig = {
 /**
  * Provider for AI hub service.
  * https://github.com/qiangli/ai
+ * https://github.com/react-chatbotify-plugins/llm-connector.git
  */
 export default class CustomProvider implements Provider {
-  // private endpoint!: string;
   private debug: boolean = false;
 
   /**
    * @param config configuration for setup
    */
   public constructor(config: CustomProviderConfig) {
-    // this.endpoint = config.baseUrl ?? 'http://localhost:58080/hub';
     this.debug = config.debug ?? false;
   }
 
@@ -48,10 +41,16 @@ export default class CustomProvider implements Provider {
 
     // TODO investigate messages contain all history?
     const lastMessage = messages.slice(-1); // Get only the last message
+    if (lastMessage.length === 0) {
+      yield "No messages provided";
+      return;
+    }
+
     for (const msg of lastMessage) {
       try {
         if (msg.sender !== "USER") {
           console.log("skipping non user message", msg);
+          continue;
         }
 
         const resp = await sendMessage(msg);
@@ -63,6 +62,7 @@ export default class CustomProvider implements Provider {
         yield resp.payload;
       } catch (err) {
         console.error("failed to send", err);
+        yield "Failed to send message";
       }
     }
   }

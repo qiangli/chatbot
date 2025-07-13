@@ -1,6 +1,6 @@
 // provider.ts
 
-import { type Provider } from "@rcb-plugins/llm-connector";
+import { type Provider } from '@rcb-plugins/llm-connector';
 import { type Message } from 'react-chatbotify';
 
 import { type WsMessage, sendWsMessage } from './manager';
@@ -42,14 +42,14 @@ export default class CustomProvider implements Provider {
     // TODO investigate messages contain all history?
     const lastMessage = messages.slice(-1); // Get only the last message
     if (lastMessage.length === 0) {
-      yield "No messages provided";
+      yield 'No messages provided';
       return;
     }
 
     for (const msg of lastMessage) {
       try {
-        if (msg.sender !== "USER") {
-          console.log("skipping non user message", msg);
+        if (msg.sender !== 'USER') {
+          console.log('skipping non user message', msg);
           continue;
         }
 
@@ -61,8 +61,8 @@ export default class CustomProvider implements Provider {
 
         yield resp.payload;
       } catch (err) {
-        console.error("failed to send", err);
-        yield "Failed to send message";
+        console.error('failed to send', err);
+        yield 'Failed to send message';
       }
     }
   }

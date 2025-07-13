@@ -53,7 +53,7 @@ class WSManager {
 
   connect(userInitiated = false) {
     if (!this.hubUrl || !this.sender) {
-      console.log("hubUrl or sender not set, skip connect");
+      console.log('hubUrl or sender not set, skip connect');
       return;
     }
     if (
@@ -107,12 +107,12 @@ class WSManager {
       try {
         this.webSocket.close();
       } catch (e) {
-        console.warn(e)
+        console.warn(e);
       }
       this.webSocket.onclose =
         this.webSocket.onmessage =
         this.webSocket.onerror =
-        null;
+          null;
       this.webSocket = null;
     }
     if (stopKeepAlive) this.stopKeepAliveInterval();
@@ -182,7 +182,7 @@ class WSManager {
       try {
         this.webSocket.close();
       } catch (e) {
-        console.warn(e)
+        console.warn(e);
       }
       // this.webSocket.onclose =
       //   this.webSocket.onmessage =
@@ -220,7 +220,7 @@ class WSManager {
         }, RESPONSE_TIMEOUT),
       };
 
-      console.log("[WS] sending:", message);
+      console.log('[WS] sending:', message);
       this.webSocket.send(JSON.stringify(message));
     });
   };
@@ -234,10 +234,10 @@ class WSManager {
         clearTimeout(this.pending[key].timeout);
         delete this.pending[key];
       } else {
-        console.log("[WS] discarded", msg);
+        console.log('[WS] discarded', msg);
       }
     } catch (e) {
-      console.warn(e)
+      console.warn(e);
     }
   }
 

@@ -31,7 +31,6 @@ just hub
 
 Visit UI Client [http://localhost:18083](http://localhost:18083)
 
-
 ## Miscellaneous UI Tools
 
 [Datastore client](https://github.com/qiangli/franchise) for Sqlite, PostgreSQL, and MySQL.
@@ -39,4 +38,3 @@ Visit UI Client [http://localhost:18083](http://localhost:18083)
 [Redis client](https://github.com/qiangli/redis-commander)
 
 These tools are compatible and could be used with official PostgresSQL/MySQL/Redis servers but are setup to access the embedded/in-memory backing stores for the AI Commandline Tool [Hub services](https://github.com/qiangli/ai#hub-services).
-

@@ -11,6 +11,7 @@ build: tidy
 
 tidy:
     pnpm lint
+    pnpm format
 
 start:
     #pnpm run dev

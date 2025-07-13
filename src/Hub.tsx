@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import wsManager from './ws/manager';
 
 export type HubConfig = {
-  url: string
-  sender: string
+  url: string;
+  sender: string;
 };
 
 const Hub: React.FC<HubConfig> = ({ url, sender }) => {

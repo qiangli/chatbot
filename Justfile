@@ -13,4 +13,5 @@ tidy:
     pnpm lint
 
 start:
-    pnpm run dev
+    #pnpm run dev
+    go run server/main.go

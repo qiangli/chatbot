@@ -1,0 +1,22 @@
+{
+  "name": "AI Chatbot",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "A helpful AI assistant that works on your local host, ssh servers, docker instances, kubernetes pods...",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["sidePanel"],
+  "side_panel": {
+    "default_path": "dist/index.html"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "action": {
+    "default_title": "AI Chatbot side panel"
+  }
+}

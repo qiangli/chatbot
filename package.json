@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run build:web && npm run build:ext",
+    "build:web": "tsc -b && vite build --mode web --config vite.config.web.ts",
+    "build:ext": "tsc -b && vite build --mode ext --config vite.config.ext.ts",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
     "preview": "vite preview"

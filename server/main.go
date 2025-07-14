@@ -9,7 +9,7 @@ import (
 func main() {
 	address := flag.String("address", ":18083", "HTTP network address")
 
-	fileServer := http.FileServer(http.Dir("dist/"))
+	fileServer := http.FileServer(http.Dir("dist/webapp/"))
 
 	http.Handle("/", fileServer)
 

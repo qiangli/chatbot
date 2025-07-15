@@ -7,21 +7,12 @@ import CustomProvider from './ws/provider';
 import Hub from './Hub';
 import Header from './Header';
 import Footer from './Footer';
-import settings from './settings';
+import settings, { themes } from './settings';
 
 const slots = {
   chatBotHeader: Header,
   chatBotFooter: Footer,
 };
-
-// https://react-chatbotify.com/themes
-// https://github.com/react-chatbotify/community-themes/tree/main/themes
-// const themes = [{ id: 'terminal', version: '0.1.0' }];
-const themes = [{ id: 'soft_sky_blue', version: '0.1.0' }];
-// const themes = [{ id: 'imple_blue', version: '0.1.0' }];
-// const themes = [{ id: 'chatgpt', version: '0.1.0' }];
-// const themes = [{ id: 'midlight_black', version: '0.1.0' }];
-// const themes = [{ id: 'omen', version: '0.1.0' }];
 
 // https://github.com/react-chatbotify/react-chatbotify
 // https://react-chatbotify.com/docs/v2/introduction/quickstart/

@@ -15,7 +15,7 @@ build-web: tidy
 build-chrome: tidy
     pnpm build:chrome
 
-build-vscode: tidy
+build-sidebar: tidy
     pnpm build:vscode
 
 tidy:

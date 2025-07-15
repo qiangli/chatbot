@@ -1,8 +1,23 @@
 # AI Chatbot
 
-AI Chatbot is a lightweight AI chat web app built with vite+react to work with [AI Command Line Tool](https://github.com/qiangli/ai) hub services.
+AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI Command Line Tool](https://github.com/qiangli/ai) hub service.
 
-![UI image](./docs/chatbot-ui.png)
+### Widget
+
+![Wdiget UI image](./widget/docs/chatbot-ui.png)
+
+### Web UI
+
+![Web UI image](./assistant/docs/web-ui.png)
+
+### Chrome Extension - Toolbar
+
+![Toolbar UI image](./assistant/docs/toolbar-ui.png)
+
+### VSCode Extension - Sidebar
+
+![Sidebar UI image](./widget/docs/sidebar-ui.png)
+
 
 ## Install and Run
 
@@ -29,7 +44,11 @@ just hub
 
 ## Chatbot UI
 
-Visit UI Client [http://localhost:18083](http://localhost:18083)
+* Visit UI
+  [http://localhost:18083](http://localhost:18083)
+
+* Install extensions
+  [extensions](extension/)
 
 ## Miscellaneous UI Tools
 

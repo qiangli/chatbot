@@ -9,7 +9,10 @@ import (
 func main() {
 	address := flag.String("address", ":18083", "HTTP network address")
 
-	fileServer := http.FileServer(http.Dir("extension/chrome/toolbar/dist/"))
+	// TODO
+	// ui/dist
+	// extension/chrome/toolbar/dist/
+	fileServer := http.FileServer(http.Dir("assistant/dist"))
 
 	http.Handle("/", fileServer)
 

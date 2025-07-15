@@ -1,0 +1,23 @@
+#!/usr/bin/env -S just --justfile
+
+default:
+  @just --list
+
+install:
+    pnpm install
+
+build:
+    NEXT_TARGET=web pnpm build
+
+build-sidebar:
+    NEXT_TARGET=vscode-sidebar pnpm build
+
+build-toolbar:
+   NEXT_TARGET=chrome-toolbar pnpm build
+
+build-sidepanel:
+   NEXT_TARGET=chrome-sidepanel pnpm build
+
+tidy:
+    pnpm format
+    pnpm lint

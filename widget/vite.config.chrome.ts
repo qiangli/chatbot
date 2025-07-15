@@ -7,7 +7,8 @@ export default defineConfig({
   base: './',
   build: {
     chunkSizeWarningLimit: 1000,
-    outDir: 'extension/vscode/sidebar/dist',
+    outDir: '../extension/chrome/sidepanel/dist',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: () => 'everything',

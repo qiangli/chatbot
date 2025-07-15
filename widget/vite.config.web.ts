@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [react()],
   base: './',
   build: {
-    chunkSizeWarningLimit: 1000,
-    outDir: 'extension/chrome/sidepanel/dist',
+    chunkSizeWarningLimit: 1000, // increase limit to 1000 kB
+    outDir: '../extension/chrome/toolbar/dist/',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: () => 'everything',

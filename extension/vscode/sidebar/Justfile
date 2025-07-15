@@ -1,0 +1,17 @@
+#!/usr/bin/env -S just --justfile
+
+default:
+  just --list
+
+install:
+    pnpm install
+
+build: tidy
+    pnpm vscode:prepublish
+
+tidy:
+    pnpm lint:fix
+    pnpm format
+
+start:
+    pnpm watch

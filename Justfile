@@ -12,8 +12,11 @@ build: tidy
 build-web: tidy
     pnpm build:web
 
-build-ext: tidy
-    pnpm build:ext
+build-chrome: tidy
+    pnpm build:chrome
+
+build-vscode: tidy
+    pnpm build:vscode
 
 tidy:
     pnpm lint

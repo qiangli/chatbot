@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:web && npm run build:ext",
+    "build": "npm run build:web && npm run build:chrome && npm run build:vscode",
     "build:web": "tsc -b && vite build --mode web --config vite.config.web.ts",
-    "build:ext": "tsc -b && vite build --mode ext --config vite.config.ext.ts",
+    "build:chrome": "tsc -b && vite build --mode chrome --config vite.config.chrome.ts",
+    "build:vscode": "tsc -b && vite build --mode vscode --config vite.config.vscode.ts",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
     "preview": "vite preview"

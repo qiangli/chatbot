@@ -14,6 +14,13 @@ const slots = {
   chatBotFooter: Footer,
 };
 
+// https://react-chatbotify.com/themes
+// https://github.com/react-chatbotify/community-themes/tree/main/themes
+// const themes = [{ id: 'terminal', version: '0.1.0' }];
+const themes = [{ id: 'chatgpt', version: '0.1.0' }];
+// const themes = [{ id: 'midlight_black', version: '0.1.0' }];
+// const themes = [{ id: 'omen', version: '0.1.0' }];
+
 // https://github.com/react-chatbotify/react-chatbotify
 // https://react-chatbotify.com/docs/v2/introduction/quickstart/
 // https://www.freecodecamp.org/news/how-to-create-a-react-chatbot/
@@ -66,6 +73,7 @@ const Chat = () => {
         <ChatBot
           plugins={[LlmConnector(pluginConfig)]}
           flow={flow}
+          themes={themes}
           settings={settings}
           slots={slots}
         />

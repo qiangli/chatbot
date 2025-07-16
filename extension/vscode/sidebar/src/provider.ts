@@ -1,11 +1,14 @@
 import * as vscode from 'vscode';
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 export class SidebarViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'vscode-sidebar.openview';
 
   private _view?: vscode.WebviewView;
 
-  constructor(private readonly _extensionUri: vscode.Uri) {}
+  constructor(private readonly _extensionUri: vscode.Uri) { }
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
@@ -20,34 +23,13 @@ export class SidebarViewProvider implements vscode.WebviewViewProvider {
   }
 
   private getHtmlContent(webview: vscode.Webview): string {
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'dist', 'assets', 'bundle.js'),
-    );
-
-    // Do the same for the stylesheet.
-    const styleUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'dist', 'assets', 'bundle.css'),
-    );
-
-    // Use a nonce to only allow a specific script to be run.
-    const nonce = getNonce();
-
-    return `
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
-    <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
-    <link rel="stylesheet" crossorigin href="${styleUri}">
-  </head>
-  <body>
-    <div id="ai-chatbot-root"></div>
-  </body>
-</html>
-    `;
+    const baseUri = vscode.Uri.joinPath(this._extensionUri, 'dist');
+    const htmlPath = vscode.Uri.joinPath(baseUri, 'index.html');
+    const tpl = fs.readFileSync(htmlPath.fsPath, 'utf8');
+    const baseUrl = webview.asWebviewUri(baseUri);
+    const content = tpl.replace(/\/\{BASE_URL\}/g, baseUrl.toString());
+    // console.log("html content", content);
+    return content;
   }
 }
 

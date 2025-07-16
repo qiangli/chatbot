@@ -1,0 +1,14 @@
+#!/usr/bin/env -S just --justfile
+
+default:
+  @just --list
+
+install:
+    npm install
+
+start:
+    cp src/main.js dist/
+    npm run start
+
+tidy:
+    npm run lint

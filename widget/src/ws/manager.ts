@@ -39,7 +39,7 @@ class WSManager {
     {
       resolve: (value: WsMessage) => void;
       reject: (reason?: string) => void;
-      timeout?: number;
+      timeout?: ReturnType<typeof setTimeout>;
     }
   > = {};
 

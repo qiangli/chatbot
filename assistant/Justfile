@@ -6,17 +6,25 @@ default:
 install:
     pnpm install
 
-build:
-    NEXT_TARGET=web pnpm build
+udpate:
+    pnpm update
 
+build:
+    PAGES_BASE_PATH= CHATBOT_TARGET=web pnpm build
+
+# Build vscode sidebar
 build-sidebar:
-    NEXT_TARGET=vscode-sidebar pnpm build
+    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=vscode-sidebar pnpm build
 
 build-toolbar:
-   NEXT_TARGET=chrome-toolbar pnpm build
+    PAGES_BASE_PATH= CHATBOT_TARGET=chrome-toolbar pnpm build
 
 build-sidepanel:
-   NEXT_TARGET=chrome-sidepanel pnpm build
+    PAGES_BASE_PATH= CHATBOT_TARGET=chrome-sidepanel pnpm build
+
+# Build electron tray app
+build-tray:
+    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray pnpm build
 
 tidy:
     pnpm format

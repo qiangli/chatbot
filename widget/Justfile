@@ -6,18 +6,26 @@ default:
 install:
     pnpm install
 
-build: tidy
-    pnpm build
+update:
+    pnpm update
 
-build-web: tidy
-    pnpm build:web
+#
+build:
+    CHATBOT_TARGET=web pnpm build
 
-build-chrome: tidy
-    pnpm build:chrome
+build-sidebar:
+    CHATBOT_TARGET=vscode-sidebar pnpm build
 
-build-sidebar: tidy
-    pnpm build:vscode
+build-toolbar:
+    CHATBOT_TARGET=chrome-toolbar pnpm build
+
+build-sidepanel:
+    CHATBOT_TARGET=chrome-sidepanel pnpm build
+
+# Build electron tray app
+build-tray:
+    CHATBOT_TARGET=electron-tray pnpm build
 
 tidy:
-    pnpm lint
     pnpm format
+    pnpm lint

@@ -2,24 +2,43 @@
 
 AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI Command Line Tool](https://github.com/qiangli/ai) hub service.
 
-### Widget
+## Features
+
++ This app is implemented with [Node.js](https://nodejs.org/)/[React](https://react.dev/) but statically built. It can be deployed on any web/file server/CDN.
++ Communication with LLMs is via a simple request/response pattern which is supported by almost any wire protocols: Websocket, REST api, gRPC, ...
++ Currently, Websocket implementation is provided. [AI Command Line Tool](https://github.com/qiangli/ai) written in [Golang](https://go.dev/) serves as the backend.
++ Various user interfaces/wrappers are provided, more on the way...
+
+## Widget / Extension / Desktop App
+
+### Web Widget - Icon/Chatbox toggle
 
 ![Wdiget UI image](./widget/docs/chatbot-ui.png)
 
-### Web UI
+### Web UI = Full web page
 
 ![Web UI image](./assistant/docs/web-ui.png)
 
-### Chrome Extension - Toolbar
+### Chrome Extension - Toolbar button
 
 ![Toolbar UI image](./assistant/docs/toolbar-ui.png)
 
-### VSCode Extension - Sidebar
+### VSCode Extension - Sidebar view
 
 ![Sidebar UI image](./widget/docs/sidebar-ui.png)
 
+### Electron Desktop App - Tray
+
+![Tray image](./assistant/docs/tray.png)
+
+![Tray UI image](./assistant/docs/tray-ui.png)
+
 
 ## Install and Run
+
+* Install [Node.js](https://nodejs.org/)
+  
+* Change to the component's subfolders and run:
 
 ```bash
 # pnpm install
@@ -31,6 +50,8 @@ just build
 # go run server/main.go
 just start
 ```
+
+[Just](https://github.com/casey/just) is for convenience/consistency only. You can run the underlying commands directly.
 
 ## AI Hub Service
 

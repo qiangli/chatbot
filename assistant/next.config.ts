@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
-let outDir;
-const target = process.env.NEXT_TARGET;
+let outDir: string;
+const target = process.env.CHATBOT_TARGET;
 switch (target) {
   case "web":
     outDir = "dist/";
@@ -15,9 +15,11 @@ switch (target) {
   case "chrome-sidepanel":
     outDir = "../extension/chrome/sidepanel/dist";
     break;
+  case "electron-tray":
+    outDir = "../electron/hub/dist";
+    break;
   default:
-    outDir = "dist/";
-  // throw new Error(`invalid target: ${target}`);
+    throw new Error(`invalid target: ${target}`);
 }
 
 console.log("outDir", outDir);

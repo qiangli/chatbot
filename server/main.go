@@ -7,17 +7,21 @@ import (
 )
 
 func main() {
-	address := flag.String("address", ":18083", "HTTP network address")
+    address := flag.String("address", ":18080", "HTTP network address")
 
-	// TODO
-	// ui/dist
-	// extension/chrome/toolbar/dist/
-	fileServer := http.FileServer(http.Dir("assistant/dist"))
+    mux := http.NewServeMux()
 
-	http.Handle("/", fileServer)
+    assistantServer := http.StripPrefix("/assistant/", http.FileServer(http.Dir("assistant/dist")))
+    mux.Handle("/assistant/", assistantServer)
 
-	log.Printf("Starting chatbot on %s...", *address)
-	if err := http.ListenAndServe(*address, nil); err != nil {
-		log.Fatal(err)
-	}
+    widgetServer := http.StripPrefix("/widget/", http.FileServer(http.Dir("widget/dist")))
+    mux.Handle("/widget/", widgetServer)
+
+    fileServer := http.FileServer(http.Dir("server/static"))
+    mux.Handle("/", fileServer)
+
+    log.Printf("Starting chatbot on %s...", *address)
+    if err := http.ListenAndServe(*address, mux); err != nil {
+        log.Fatal(err)
+    }
 }

@@ -33,6 +33,11 @@ AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI C
 
 ![Tray UI image](./assistant/docs/tray-ui.png)
 
+### Web Terminal
+
+This is equivalent to running AI CLI in a native system terminal - a full shell with AI agent.
+
+![Terminal UI image](./docs/terminal-ui.png)
 
 ## Install and Run
 

@@ -15,7 +15,7 @@ AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI C
 
 ![Wdiget UI image](./widget/docs/chatbot-ui.png)
 
-### Web UI = Full web page
+### Web UI - Full web page
 
 ![Web UI image](./assistant/docs/web-ui.png)
 

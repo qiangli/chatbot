@@ -19,7 +19,8 @@ switch (target) {
     outDir = "../electron/hub/dist";
     break;
   default:
-    throw new Error(`invalid target: ${target}`);
+    // throw new Error(`invalid target: ${target}`);
+    outDir = "dist/";
 }
 
 console.log("outDir", outDir);

@@ -23,6 +23,9 @@ import { useLocalRuntime } from "@assistant-ui/react";
 import CustomModelAdapter from "@/lib/ws/provider";
 import Hub from "./hub";
 
+// https://github.com/Yonom/assistant-ui
+// https://www.assistant-ui.com/docs/getting-started
+// https://github.com/assistant-ui/assistant-ui-starter
 export const Assistant = () => {
   const runtime = useLocalRuntime(new CustomModelAdapter({}));
 

@@ -28,8 +28,27 @@ import { ToolFallback } from "./tool-fallback";
 import {
   ComposerAttachments,
   ComposerAddAttachment,
+  UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
-import { UserMessageAttachments } from "@/components/assistant-ui/attachment";
+
+import {
+  ComposerScreenshots,
+  ComposerAddScreenshot,
+  // UserMessageScreenshots,
+} from "@/components/assistant-ui/screenshot";
+
+import {
+  ComposerSelections,
+  ComposerAddSelection,
+  // UserMessageSelections,
+} from "@/components/assistant-ui/selection";
+
+import {
+  ComposerVoices,
+  ComposerAddVoice,
+  // UserMessageVoices,
+} from "@/components/assistant-ui/voice";
+
 
 export const Thread: FC = () => {
   return (
@@ -121,7 +140,15 @@ const Composer: FC = () => {
   return (
     <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
       <ComposerAttachments />
+      <ComposerVoices />
+      <ComposerScreenshots />
+      <ComposerSelections />
+
       <ComposerAddAttachment />
+      <ComposerAddVoice />
+      <ComposerAddScreenshot />
+      <ComposerAddSelection />
+
       <ComposerPrimitive.Input
         rows={1}
         autoFocus
@@ -166,6 +193,7 @@ const UserMessage: FC = () => {
   return (
     <MessagePrimitive.Root className="grid auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 [&:where(>*)]:col-start-2 w-full max-w-[var(--thread-max-width)] py-4">
       <UserMessageAttachments />
+      {/* <UserMessageScreenshots /> */}
       <UserActionBar />
 
       <div className="bg-muted text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words rounded-3xl px-5 py-2.5 col-start-2 row-start-2">

@@ -10,7 +10,7 @@ udpate:
     pnpm update
 
 build:
-    PAGES_BASE_PATH=/assistant CHATBOT_TARGET=web pnpm build
+    PAGES_BASE_PATH=/assistant CHATBOT_TARGET=web NEXT_PUBLIC_SENDER_ID=web pnpm build
 
 # Build vscode sidebar
 build-sidebar:

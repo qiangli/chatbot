@@ -15,6 +15,8 @@ import {
   PencilIcon,
   RefreshCwIcon,
   SendHorizontalIcon,
+  StopCircleIcon,
+  AudioLinesIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +24,12 @@ import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { ToolFallback } from "./tool-fallback";
+
+import {
+  ComposerAttachments,
+  ComposerAddAttachment,
+} from "@/components/assistant-ui/attachment";
+import { UserMessageAttachments } from "@/components/assistant-ui/attachment";
 
 export const Thread: FC = () => {
   return (
@@ -112,6 +120,8 @@ const ThreadWelcomeSuggestions: FC = () => {
 const Composer: FC = () => {
   return (
     <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
+      <ComposerAttachments />
+      <ComposerAddAttachment />
       <ComposerPrimitive.Input
         rows={1}
         autoFocus
@@ -155,6 +165,7 @@ const ComposerAction: FC = () => {
 const UserMessage: FC = () => {
   return (
     <MessagePrimitive.Root className="grid auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 [&:where(>*)]:col-start-2 w-full max-w-[var(--thread-max-width)] py-4">
+      <UserMessageAttachments />
       <UserActionBar />
 
       <div className="bg-muted text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words rounded-3xl px-5 py-2.5 col-start-2 row-start-2">
@@ -215,6 +226,7 @@ const AssistantMessage: FC = () => {
   );
 };
 
+// https://github.com/assistant-ui/assistant-ui/blob/main/apps/docs/components/assistant-ui/thread.tsx
 const AssistantActionBar: FC = () => {
   return (
     <ActionBarPrimitive.Root
@@ -223,6 +235,20 @@ const AssistantActionBar: FC = () => {
       autohideFloat="single-branch"
       className="text-muted-foreground flex gap-1 col-start-3 row-start-2 -ml-1 data-[floating]:bg-background data-[floating]:absolute data-[floating]:rounded-md data-[floating]:border data-[floating]:p-1 data-[floating]:shadow-sm"
     >
+      <MessagePrimitive.If speaking={false}>
+        <ActionBarPrimitive.Speak asChild>
+          <TooltipIconButton tooltip="Read aloud">
+            <AudioLinesIcon />
+          </TooltipIconButton>
+        </ActionBarPrimitive.Speak>
+      </MessagePrimitive.If>
+      <MessagePrimitive.If speaking>
+        <ActionBarPrimitive.StopSpeaking asChild>
+          <TooltipIconButton tooltip="Stop">
+            <StopCircleIcon />
+          </TooltipIconButton>
+        </ActionBarPrimitive.StopSpeaking>
+      </MessagePrimitive.If>
       <ActionBarPrimitive.Copy asChild>
         <TooltipIconButton tooltip="Copy">
           <MessagePrimitive.If copied>

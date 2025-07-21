@@ -14,7 +14,6 @@ import {
   CopyIcon,
   PencilIcon,
   RefreshCwIcon,
-  SendHorizontalIcon,
   StopCircleIcon,
   AudioLinesIcon,
 } from "lucide-react";
@@ -25,30 +24,9 @@ import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { ToolFallback } from "./tool-fallback";
 
-import {
-  ComposerAttachments,
-  ComposerAddAttachment,
-  UserMessageAttachments,
-} from "@/components/assistant-ui/attachment";
+import { Composer } from "./compose";
 
-import {
-  ComposerScreenshots,
-  ComposerAddScreenshot,
-  // UserMessageScreenshots,
-} from "@/components/assistant-ui/screenshot";
-
-import {
-  ComposerSelections,
-  ComposerAddSelection,
-  // UserMessageSelections,
-} from "@/components/assistant-ui/selection";
-
-import {
-  ComposerVoices,
-  ComposerAddVoice,
-  // UserMessageVoices,
-} from "@/components/assistant-ui/voice";
-
+import { UserMessageAttachments } from "./attachment";
 
 export const Thread: FC = () => {
   return (
@@ -136,64 +114,12 @@ const ThreadWelcomeSuggestions: FC = () => {
   );
 };
 
-const Composer: FC = () => {
-  return (
-    <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
-      <ComposerAttachments />
-      <ComposerVoices />
-      <ComposerScreenshots />
-      <ComposerSelections />
-
-      <ComposerAddAttachment />
-      <ComposerAddVoice />
-      <ComposerAddScreenshot />
-      <ComposerAddSelection />
-
-      <ComposerPrimitive.Input
-        rows={1}
-        autoFocus
-        placeholder="Write a message..."
-        className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed"
-      />
-      <ComposerAction />
-    </ComposerPrimitive.Root>
-  );
-};
-
-const ComposerAction: FC = () => {
-  return (
-    <>
-      <ThreadPrimitive.If running={false}>
-        <ComposerPrimitive.Send asChild>
-          <TooltipIconButton
-            tooltip="Send"
-            variant="default"
-            className="my-2.5 size-8 p-2 transition-opacity ease-in"
-          >
-            <SendHorizontalIcon />
-          </TooltipIconButton>
-        </ComposerPrimitive.Send>
-      </ThreadPrimitive.If>
-      <ThreadPrimitive.If running>
-        <ComposerPrimitive.Cancel asChild>
-          <TooltipIconButton
-            tooltip="Cancel"
-            variant="default"
-            className="my-2.5 size-8 p-2 transition-opacity ease-in"
-          >
-            <CircleStopIcon />
-          </TooltipIconButton>
-        </ComposerPrimitive.Cancel>
-      </ThreadPrimitive.If>
-    </>
-  );
-};
-
 const UserMessage: FC = () => {
   return (
     <MessagePrimitive.Root className="grid auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 [&:where(>*)]:col-start-2 w-full max-w-[var(--thread-max-width)] py-4">
       <UserMessageAttachments />
       {/* <UserMessageScreenshots /> */}
+
       <UserActionBar />
 
       <div className="bg-muted text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words rounded-3xl px-5 py-2.5 col-start-2 row-start-2">
@@ -326,16 +252,16 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
   );
 };
 
-const CircleStopIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      width="16"
-      height="16"
-    >
-      <rect width="10" height="10" x="3" y="3" rx="2" />
-    </svg>
-  );
-};
+// const CircleStopIcon = () => {
+//   return (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       viewBox="0 0 16 16"
+//       fill="currentColor"
+//       width="16"
+//       height="16"
+//     >
+//       <rect width="10" height="10" x="3" y="3" rx="2" />
+//     </svg>
+//   );
+// };

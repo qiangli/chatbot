@@ -10,7 +10,7 @@ import {
 } from "@assistant-ui/react";
 
 import CustomModelAdapter from "@/lib/ws/provider";
-import Hub from "@/app//hub";
+import Hub from "@/components/hub";
 import { PDFAttachmentAdapter } from "@/adapters/pdf";
 
 // https://www.assistant-ui.com/docs/runtimes/custom/local

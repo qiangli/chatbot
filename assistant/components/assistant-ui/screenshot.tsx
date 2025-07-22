@@ -1,79 +1,46 @@
 "use client";
 
 import type { FC } from "react";
-// import { useState, useEffect } from "react";
-import Image from "next/image";
 
 import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
-// import { ImagePreview } from "./image-preview";
 
 export const ComposerScreenshots: FC = () => {
-  const { screenshotData } = useComposerContext();
-  // const [isVisible, setIsVisible] = useState(false);
+  const { screenshotData, setScreenshotData } = useComposerContext();
   const composerRuntime = useComposerRuntime();
-
-  // useEffect(() => {
-  //   if (screenshotData) {
-  //     setIsVisible(true);
-  //   }
-  // }, [screenshotData]);
-
-  // const handleRemove = () => {
-  //   // setIsVisible(false);
-  //   setScreenshotData(null);
-  // };
 
   if (!screenshotData) {
     return null;
   }
 
-  // const file = new Blob([screenshotData], {type: 'image/png'});
   const file = new File([screenshotData], "screenshot.png", {
     type: "image/png",
   });
   composerRuntime.addAttachment(file);
+  setScreenshotData(null);
 
   return <></>;
-  // return (
-  //   <ImagePreview image={screenshotData} closer={handleRemove} />
-  // );
 };
 
 export const ComposerAddScreenshot: FC = () => {
   const { takeScreenshot } = useComposerContext();
+
+  const add = (event: React.MouseEvent<HTMLButtonElement>) => {
+    takeScreenshot();
+    event.preventDefault();
+  };
 
   return (
     <TooltipIconButton
       className="my-2.5 size-8 p-2 transition-opacity ease-in"
       tooltip="Take screenshot"
       variant="ghost"
-      onClick={takeScreenshot}
+      onClick={add}
     >
       <IconScreenshot />
     </TooltipIconButton>
-  );
-};
-
-export const UserMessageScreenshots: FC = () => {
-  const { screenshotData } = useComposerContext();
-
-  return (
-    <div className="flex w-full flex-row gap-3 col-span-full col-start-1 row-start-1 justify-end">
-      {screenshotData && (
-        <p id="screenshot">
-          <Image
-            id="screenshot-img"
-            src={screenshotData}
-            height="180"
-            style={{ border: "black solid 1px", width: "100%" }}
-            alt="Screenshot"
-          />
-        </p>
-      )}
-    </div>
   );
 };
 

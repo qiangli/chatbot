@@ -71,12 +71,8 @@ export const ComposerProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!selected) {
       selected = document.body.innerText || document.body.textContent || "";
     }
-    // console.log("selected text:", selected);
-    if (selectedText) {
-      setSelectedText(`${selectedText} ${selected}`);
-    } else {
-      setSelectedText(selected);
-    }
+    console.log("selected text:", selected);
+    setSelectedText(selected);
   };
 
   const startVoice = (toggle: (on: boolean) => void) => {

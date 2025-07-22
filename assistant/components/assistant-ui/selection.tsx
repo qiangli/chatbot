@@ -1,56 +1,33 @@
 "use client";
 
 import type { FC } from "react";
-// import { useState, useEffect } from "react";
 
 import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
-// import { TextEditor } from "./text-edit";
 
 export const ComposerSelections: FC = () => {
-  const { selectedText } = useComposerContext();
+  const { selectedText, setSelectedText } = useComposerContext();
   const composerRuntime = useComposerRuntime();
-  // const [isVisible, setIsVisible] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("Selected text changed:", selectedText);
-  //   setIsVisible(Boolean(selectedText));
-  // }, [selectedText]);
-
-  // const handleRemove = () => {
-  //   console.log("Removing selection text");
-  //   setIsVisible(false);
-  //   setSelectedText(null);
-  // };
-
-  // if (!isVisible) {
-  //   return null;
-  // }
   if (!selectedText) {
     return null;
   }
 
   const file = new File([selectedText], "selected.txt", { type: "text/plain" });
   composerRuntime.addAttachment(file);
+  setSelectedText(null);
 
   return <></>;
-
-  // return (
-  //   <TextEditor
-  //     text={selectedText}
-  //     closer={handleRemove}
-  //     updater={setSelectedText}
-  //   />
-  // );
 };
 
 export const ComposerAddSelection: FC = () => {
   const { copySelectedText } = useComposerContext();
 
-  const add = () => {
+  const add = (event: React.MouseEvent<HTMLButtonElement>) => {
     copySelectedText();
+    event.preventDefault();
   };
 
   return (
@@ -62,14 +39,6 @@ export const ComposerAddSelection: FC = () => {
     >
       <IconSelection />
     </TooltipIconButton>
-  );
-};
-
-export const UserMessageSelections: FC = () => {
-  return (
-    <div className="flex w-full flex-row gap-3 col-span-full col-start-1 row-start-1 justify-end">
-      <span>selected text</span>
-    </div>
   );
 };
 

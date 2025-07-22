@@ -7,48 +7,32 @@ import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
-import { TextEditor } from "./text-edit";
 
 export const ComposerVoices: FC = () => {
   const { voiceData, setVoiceData } = useComposerContext();
-  // const [isVisible, setIsVisible] = useState(false);
   const composerRuntime = useComposerRuntime();
-
-  // useEffect(() => {
-  //   console.log("voice data changed:", voiceData);
-  //   setIsVisible(Boolean(voiceData));
-  // }, [voiceData]);
-
-  const handleRemove = () => {
-    console.log("Removing voice data");
-    // setIsVisible(false);
-    setVoiceData(null);
-  };
-
-  // if (!isVisible) {
-  //   return null;
-  // }
 
   if (!voiceData) {
     return null;
   }
   composerRuntime.setText(voiceData);
-  return (
-    <TextEditor text={voiceData} closer={handleRemove} updater={setVoiceData} />
-  );
+  setVoiceData(null);
+
+  return <></>;
 };
 
 export const ComposerAddVoice: FC = () => {
   const { startVoice, stopVoice } = useComposerContext();
   const [micOn, setMicOn] = useState(false);
 
-  const toggleVoice = () => {
+  const toggleVoice = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (micOn) {
       stopVoice();
       setMicOn(false);
     } else {
       startVoice(setMicOn);
     }
+    event.preventDefault();
   };
 
   return (

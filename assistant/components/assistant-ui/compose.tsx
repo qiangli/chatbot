@@ -6,23 +6,11 @@ import { SendHorizontalIcon, StopCircleIcon } from "lucide-react";
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { ComposerAttachments, ComposerAddAttachment } from "./attachment";
 import { ComposerProvider } from "./composer-provider";
-import {
-  ComposerScreenshots,
-  ComposerAddScreenshot,
-  // UserMessageScreenshots,
-} from "./screenshot";
+import { ComposerScreenshots, ComposerAddScreenshot } from "./screenshot";
 
-import {
-  ComposerSelections,
-  ComposerAddSelection,
-  // UserMessageSelections,
-} from "./selection";
+import { ComposerSelections, ComposerAddSelection } from "./selection";
 
-import {
-  ComposerVoices,
-  ComposerAddVoice,
-  // UserMessageVoices,
-} from "./voice-input";
+import { ComposerVoices, ComposerAddVoice } from "./voice-input";
 
 export const Composer: FC = () => {
   return (

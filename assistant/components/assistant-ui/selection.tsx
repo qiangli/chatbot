@@ -7,6 +7,8 @@ import { useComposerRuntime } from "@assistant-ui/react";
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
 
+let counter = 1;
+
 export const ComposerSelections: FC = () => {
   const { selectedText, setSelectedText } = useComposerContext();
   const composerRuntime = useComposerRuntime();
@@ -15,7 +17,8 @@ export const ComposerSelections: FC = () => {
     return null;
   }
 
-  const file = new File([selectedText], "selected.txt", { type: "text/plain" });
+  const name = `selected${counter++}.txt`;
+  const file = new File([selectedText], name, { type: "text/plain" });
   composerRuntime.addAttachment(file);
   setSelectedText(null);
 

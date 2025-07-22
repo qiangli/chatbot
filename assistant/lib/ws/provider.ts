@@ -7,6 +7,8 @@ import type {
   ChatModelRunResult,
 } from "@assistant-ui/react";
 
+import type { ThreadUserMessagePart } from "@assistant-ui/react";
+
 import { type WsMessage, sendWsMessage } from "./manager";
 
 type CustomProviderConfig = {
@@ -103,30 +105,43 @@ function createMessage(id: string, content: string): WsMessage {
 
 async function sendMessage(message: Message): Promise<WsMessage> {
   // Convert message parts to a text content appropriate for websocket message
-  const content = message.content
-    .map((part) => {
+  const c2s = (tm: ThreadUserMessagePart[]) => {
+    return tm.map((part) => {
       switch (part.type) {
         case "text":
           return part.text;
-        case "reasoning":
-          return `Reasoning: ${part.text}`;
-        case "source":
-          return `Source: ${part.title || part.url}`;
         case "image":
-          return "[Image]";
+          return part.image;
         case "file":
-          return `[File: ${part.mimeType}]`;
+          return part.data;
         case "audio":
-          return "[Audio]";
-        case "tool-call":
-          return `Tool Call: ${part.toolName}`;
-        default:
-          return "[Unknown Part]";
+          return part.audio.data;
       }
-    })
-    .join("\n"); // Concatenate parts with newline separators
+    });
+  };
 
-  const req = createMessage(message.id, content);
+  const parts: { contentType: string; content: string }[] = [];
+  message.attachments?.map((part) => {
+    // assume one
+    parts.push({
+      contentType: part.contentType,
+      content: c2s(part.content)[0],
+    });
+  });
+
+  const content = c2s(
+    message.content.filter(
+      (part) => part.type == "text"
+    )
+  ).join("\n");
+
+  const req = createMessage(
+    message.id,
+    JSON.stringify({
+      content: content,
+      parts: parts,
+    }),
+  );
   const resp = sendWsMessage(req);
   return resp;
 }

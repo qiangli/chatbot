@@ -1,38 +1,49 @@
 "use client";
 
 import type { FC } from "react";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+
+import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
-import { TextEditor } from "./text-edit";
+// import { TextEditor } from "./text-edit";
 
 export const ComposerSelections: FC = () => {
-  const { selectedText, setSelectedText } = useComposerContext();
-  const [isVisible, setIsVisible] = useState(false);
+  const { selectedText } = useComposerContext();
+  const composerRuntime = useComposerRuntime();
+  // const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    console.log("Selected text changed:", selectedText);
-    setIsVisible(Boolean(selectedText));
-  }, [selectedText]);
+  // useEffect(() => {
+  //   console.log("Selected text changed:", selectedText);
+  //   setIsVisible(Boolean(selectedText));
+  // }, [selectedText]);
 
-  const handleRemove = () => {
-    console.log("Removing selection text");
-    setIsVisible(false);
-    setSelectedText(null);
-  };
+  // const handleRemove = () => {
+  //   console.log("Removing selection text");
+  //   setIsVisible(false);
+  //   setSelectedText(null);
+  // };
 
-  if (!isVisible) {
+  // if (!isVisible) {
+  //   return null;
+  // }
+  if (!selectedText) {
     return null;
   }
 
-  return (
-    <TextEditor
-      text={selectedText}
-      closer={handleRemove}
-      updater={setSelectedText}
-    />
-  );
+  const file = new File([selectedText], "selected.txt", { type: "text/plain" });
+  composerRuntime.addAttachment(file);
+
+  return <></>;
+
+  // return (
+  //   <TextEditor
+  //     text={selectedText}
+  //     closer={handleRemove}
+  //     updater={setSelectedText}
+  //   />
+  // );
 };
 
 export const ComposerAddSelection: FC = () => {

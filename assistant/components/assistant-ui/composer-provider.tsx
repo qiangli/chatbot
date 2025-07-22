@@ -46,8 +46,7 @@ export const ComposerProvider: FC<{ children: ReactNode }> = ({ children }) => {
       const canvas = await html2canvas(document.body);
       const dataUrl = canvas.toDataURL("image/png");
       setScreenshotData(dataUrl);
-
-      console.log("screenshot:", dataUrl);
+      // console.log("screenshot:", dataUrl);
     } catch (error) {
       console.error("Failed to capture screenshot:", error);
     }
@@ -72,8 +71,7 @@ export const ComposerProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!selected) {
       selected = document.body.innerText || document.body.textContent || "";
     }
-
-    console.log("selected text:", selected);
+    // console.log("selected text:", selected);
     if (selectedText) {
       setSelectedText(`${selectedText} ${selected}`);
     } else {

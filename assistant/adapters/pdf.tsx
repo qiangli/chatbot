@@ -5,11 +5,11 @@ import {
 } from "@assistant-ui/react";
 
 // https://www.assistant-ui.com/docs/guides/Attachments
-export class PDFAttachmentAdapter implements AttachmentAdapter {
+export class PDFAdapter implements AttachmentAdapter {
   public accept = "application/pdf";
 
   async add(state: { file: File }): Promise<PendingAttachment> {
-    const maxSize = 20 * 1024 * 1024; // 20MB limit
+    const maxSize = 10 * 1024 * 1024; // 10MB limit
     if (state.file.size > maxSize) {
       throw new Error("PDF size exceeds 10MB limit");
     }

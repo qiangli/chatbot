@@ -5,15 +5,15 @@ import {
 } from "@assistant-ui/react";
 
 // https://www.assistant-ui.com/docs/guides/Attachments
-export class VisionImageAdapter implements AttachmentAdapter {
+export class ImageAdapter implements AttachmentAdapter {
   // public accept = "image/jpeg,image/png,image/webp,image/gif";
   public accept = "image/*";
 
   async add(state: { file: File }): Promise<PendingAttachment> {
     // Validate file size (e.g., 20MB limit for most LLMs)
-    const maxSize = 20 * 1024 * 1024; // 20MB
+    const maxSize = 10 * 1024 * 1024; // 10MB
     if (state.file.size > maxSize) {
-      throw new Error("Image size exceeds 20MB limit");
+      throw new Error("Image size exceeds 10MB limit");
     }
 
     return {

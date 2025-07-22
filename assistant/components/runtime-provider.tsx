@@ -4,14 +4,12 @@ import type { ReactNode } from "react";
 import { AssistantRuntimeProvider, useLocalRuntime } from "@assistant-ui/react";
 import {
   CompositeAttachmentAdapter,
-  SimpleImageAttachmentAdapter,
-  SimpleTextAttachmentAdapter,
   WebSpeechSynthesisAdapter,
 } from "@assistant-ui/react";
 
 import CustomModelAdapter from "@/lib/ws/provider";
 import Hub from "@/components/hub";
-import { PDFAttachmentAdapter } from "@/adapters/pdf";
+import { ImageAdapter, PDFAdapter, TextAdapter } from "@/adapters";
 
 // https://www.assistant-ui.com/docs/runtimes/custom/local
 // pnpm dlx shadcn@latest add "https://r.assistant-ui.com/attachment"
@@ -23,10 +21,12 @@ export function CustomRuntimeProvider({
   const runtime = useLocalRuntime(new CustomModelAdapter({}), {
     adapters: {
       attachments: new CompositeAttachmentAdapter([
-        new SimpleImageAttachmentAdapter(),
-        new SimpleTextAttachmentAdapter(),
+        // new SimpleImageAttachmentAdapter(),
+        new ImageAdapter(),
+        // new SimpleTextAttachmentAdapter(),
+        new TextAdapter(),
         //
-        new PDFAttachmentAdapter(),
+        new PDFAdapter(),
       ]),
       speech: new WebSpeechSynthesisAdapter(),
     },

@@ -1,7 +1,9 @@
 "use client";
 
 import type { FC } from "react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
+import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
@@ -9,23 +11,28 @@ import { TextEditor } from "./text-edit";
 
 export const ComposerVoices: FC = () => {
   const { voiceData, setVoiceData } = useComposerContext();
-  const [isVisible, setIsVisible] = useState(false);
+  // const [isVisible, setIsVisible] = useState(false);
+  const composerRuntime = useComposerRuntime();
 
-  useEffect(() => {
-    console.log("voice data changed:", voiceData);
-    setIsVisible(Boolean(voiceData));
-  }, [voiceData]);
+  // useEffect(() => {
+  //   console.log("voice data changed:", voiceData);
+  //   setIsVisible(Boolean(voiceData));
+  // }, [voiceData]);
 
   const handleRemove = () => {
     console.log("Removing voice data");
-    setIsVisible(false);
+    // setIsVisible(false);
     setVoiceData(null);
   };
 
-  if (!isVisible) {
+  // if (!isVisible) {
+  //   return null;
+  // }
+
+  if (!voiceData) {
     return null;
   }
-
+  composerRuntime.setText(voiceData);
   return (
     <TextEditor text={voiceData} closer={handleRemove} updater={setVoiceData} />
   );

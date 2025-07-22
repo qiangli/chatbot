@@ -55,8 +55,8 @@ export const ImagePreview: FC<ImagePreviewProps> = ({
         >
           <Image
             src={image}
-            height={height || 108}
-            width={width || 108}
+            height={height || 100}
+            width={width || 180}
             style={{ border: "red solid 1px" }}
             alt="Image preview"
             onClick={handleImageClick}

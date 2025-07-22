@@ -41,7 +41,6 @@ export const startVoiceRecording = (
   recognition.onresult = function (event) {
     const transcript = event.results[0][0].transcript;
     console.info("transcript", transcript);
-
     if (setInput) {
       setInput(transcript);
     }

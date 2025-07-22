@@ -1,32 +1,45 @@
 "use client";
 
-import { type FC, useState, useEffect } from "react";
+import type { FC } from "react";
+// import { useState, useEffect } from "react";
 import Image from "next/image";
+
+import { useComposerRuntime } from "@assistant-ui/react";
 
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { useComposerContext } from "./composer-provider";
-import { ImagePreview } from "./image-preview";
+// import { ImagePreview } from "./image-preview";
 
 export const ComposerScreenshots: FC = () => {
-  const { screenshotData, setScreenshotData } = useComposerContext();
-  const [isVisible, setIsVisible] = useState(false);
+  const { screenshotData } = useComposerContext();
+  // const [isVisible, setIsVisible] = useState(false);
+  const composerRuntime = useComposerRuntime();
 
-  useEffect(() => {
-    if (screenshotData) {
-      setIsVisible(true);
-    }
-  }, [screenshotData]);
+  // useEffect(() => {
+  //   if (screenshotData) {
+  //     setIsVisible(true);
+  //   }
+  // }, [screenshotData]);
 
-  const handleRemove = () => {
-    setIsVisible(false);
-    setScreenshotData(null);
-  };
+  // const handleRemove = () => {
+  //   // setIsVisible(false);
+  //   setScreenshotData(null);
+  // };
 
-  if (!isVisible) {
+  if (!screenshotData) {
     return null;
   }
 
-  return <ImagePreview image={screenshotData} closer={handleRemove} />;
+  // const file = new Blob([screenshotData], {type: 'image/png'});
+  const file = new File([screenshotData], "screenshot.png", {
+    type: "image/png",
+  });
+  composerRuntime.addAttachment(file);
+
+  return <></>;
+  // return (
+  //   <ImagePreview image={screenshotData} closer={handleRemove} />
+  // );
 };
 
 export const ComposerAddScreenshot: FC = () => {

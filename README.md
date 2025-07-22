@@ -2,12 +2,28 @@
 
 AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI Command Line Tool](https://github.com/qiangli/ai) hub service.
 
+- [AI Chatbot](#ai-chatbot)
+  - [Features](#features)
+  - [Widget / Extension / Desktop App](#widget--extension--desktop-app)
+    - [Web Widget - Icon/Chatbox toggle](#web-widget---iconchatbox-toggle)
+    - [Web UI - Full web page](#web-ui---full-web-page)
+    - [Chrome Extension - Sidepanel](#chrome-extension---sidepanel)
+    - [Chrome Extension - Toolbar button](#chrome-extension---toolbar-button)
+    - [VSCode Extension - Sidebar view](#vscode-extension---sidebar-view)
+    - [Electron Desktop App - Tray](#electron-desktop-app---tray)
+    - [Web Terminal](#web-terminal)
+  - [Install and Run](#install-and-run)
+  - [AI Hub Service](#ai-hub-service)
+  - [Chatbot UI](#chatbot-ui)
+  - [Miscellaneous UI Tools](#miscellaneous-ui-tools)
+
 ## Features
 
 + This app is implemented with [Node.js](https://nodejs.org/)/[React](https://react.dev/) but statically built. It can be deployed on any web/file server/CDN.
 + Communication with LLMs is via a simple request/response pattern which is supported by almost any wire protocols: Websocket, REST api, gRPC, ...
 + Currently, Websocket implementation is provided. [AI Command Line Tool](https://github.com/qiangli/ai) written in [Golang](https://go.dev/) serves as the backend.
 + Various user interfaces/wrappers are provided, more on the way...
+
 
 ## Widget / Extension / Desktop App
 
@@ -18,6 +34,10 @@ AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI C
 ### Web UI - Full web page
 
 ![Web UI image](./assistant/docs/web-ui.png)
+
+### Chrome Extension - Sidepanel
+
+![Sidepanel UI](./docs/sidepanel.png)
 
 ### Chrome Extension - Toolbar button
 
@@ -75,6 +95,16 @@ just hub
 
 * Install extensions
   [extensions](extension/)
+
+
+Chrome extension
+
+```
+> chrome://extensions/
+> Load uppacked
+> extension/chrome/side/panel
+```
+
 
 ## Miscellaneous UI Tools
 

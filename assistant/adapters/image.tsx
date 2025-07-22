@@ -10,7 +10,7 @@ export class ImageAdapter implements AttachmentAdapter {
   public accept = "image/*";
 
   async add(state: { file: File }): Promise<PendingAttachment> {
-    // Validate file size (e.g., 20MB limit for most LLMs)
+    // Validate file size (e.g., 10MB limit for most LLMs)
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (state.file.size > maxSize) {
       throw new Error("Image size exceeds 10MB limit");

@@ -55,14 +55,6 @@ export const ComposerAddVoice: FC = () => {
   );
 };
 
-export const UserMessageVoices: FC = () => {
-  return (
-    <div className="flex w-full flex-row gap-3 col-span-full col-start-1 row-start-1 justify-end">
-      <span>voice to text</span>
-    </div>
-  );
-};
-
 const IconMicOff = () => {
   return (
     <svg

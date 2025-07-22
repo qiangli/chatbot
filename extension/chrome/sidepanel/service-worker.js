@@ -1,3 +1,4 @@
-chrome.sidePanel
-  .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((error) => console.error(error));
+// console.log("service-workder.js")
+
+import './sw-sidepanel.js';
+import './sw-websocket.js';

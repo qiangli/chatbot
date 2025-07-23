@@ -182,7 +182,8 @@ chrome.runtime.onMessage.addListener((message) => {
 
         // message
         if (message.data) {
-            showResponse(`${message.data.code} ${message.data.payload}`);
+            // [${message.data.code}]
+            showResponse(`${message.data.payload}`);
         }
         if (message.error) {
             showError(message.error)
@@ -212,7 +213,8 @@ function showResponse(response) {
     hide(elementError);
     show(elementResponse);
 
-    elementResponse.value = response;
+    // elementResponse.value = response;
+    setTextareaContent(response);
 }
 
 function showError(error) {
@@ -220,4 +222,23 @@ function showError(error) {
     hide(elementResponse);
     hide(elementLoading);
     elementError.textContent = error;
+}
+
+elementResponse.addEventListener('input', updateTextareaRows);
+
+function updateTextareaRows() {
+    const cols = elementResponse.cols;
+    const lines = elementResponse.value.split('\n');
+    let rows = 0;
+
+    lines.forEach(line => {
+        rows += Math.ceil(line.length / cols);
+    });
+
+    elementResponse.rows = rows;
+}
+
+function setTextareaContent(content) {
+    elementResponse.value = content;
+    elementResponse.dispatchEvent(new Event('input'));
 }

@@ -52,6 +52,7 @@ const buttonCopy = document.body.querySelector('#button-copy');
 const buttonReset = document.body.querySelector('#button-reset');
 
 const elementResponse = document.body.querySelector('#response');
+
 const elementLoading = document.body.querySelector('#loading');
 const elementError = document.body.querySelector('#error');
 
@@ -213,8 +214,7 @@ function showResponse(response) {
     hide(elementError);
     show(elementResponse);
 
-    // elementResponse.value = response;
-    setTextareaContent(response);
+    setResponseContent(response);
 }
 
 function showError(error) {
@@ -225,7 +225,6 @@ function showError(error) {
 }
 
 elementResponse.addEventListener('input', updateTextareaRows);
-
 function updateTextareaRows() {
     const cols = elementResponse.cols;
     const lines = elementResponse.value.split('\n');
@@ -234,11 +233,10 @@ function updateTextareaRows() {
     lines.forEach(line => {
         rows += Math.ceil(line.length / cols);
     });
-
     elementResponse.rows = rows;
 }
 
-function setTextareaContent(content) {
+function setResponseContent(content) {
     elementResponse.value = content;
     elementResponse.dispatchEvent(new Event('input'));
 }

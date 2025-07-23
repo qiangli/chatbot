@@ -1,0 +1,17 @@
+#!/usr/bin/env -S just --justfile
+
+default:
+  @just --list
+
+install:
+    pnpm install
+
+update:
+    pnpm update
+
+build:
+    pnpm build
+
+tidy:
+    pnpm format
+    pnpm lint:fix

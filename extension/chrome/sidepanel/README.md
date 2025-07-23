@@ -1,4 +1,4 @@
-# Side Panel
+# AI Side Panel
 
 [Samples](https://github.com/GoogleChrome/chrome-extensions-samples)
 [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).

@@ -6,7 +6,7 @@ default:
 install:
     pnpm install
 
-udpate:
+update:
     pnpm update
 
 build:

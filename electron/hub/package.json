@@ -1,6 +1,6 @@
 {
   "name": "hub",
-  "productName": "AI Hub",
+  "productName": "Hub",
   "version": "1.0.0",
   "description": "AI Hub services for chatbots",
   "main": "src/main.js",

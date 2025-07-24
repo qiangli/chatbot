@@ -85,19 +85,12 @@ class CustomModelAdapter implements ChatModelAdapter {
   }
 }
 
-function createMessage(id: string, content: string): WsMessage {
-  const payload = {
-    version: "1",
-    format: "chatbot",
-    parts: null,
-    content: content,
-  };
-
+function createMessage(id: string, payload: string): WsMessage {
   const msg: WsMessage = {
     id: id,
     type: "hub",
     recipient: "ai",
-    payload: JSON.stringify(payload),
+    payload: payload,
   };
 
   return msg;
@@ -130,14 +123,14 @@ async function sendMessage(message: Message): Promise<WsMessage> {
   });
 
   const content = c2s(
-    message.content.filter(
-      (part) => part.type == "text"
-    )
+    message.content.filter((part) => part.type == "text"),
   ).join("\n");
 
   const req = createMessage(
     message.id,
     JSON.stringify({
+      version: "1",
+      format: "chatbot",
       content: content,
       parts: parts,
     }),

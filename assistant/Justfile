@@ -19,8 +19,9 @@ build-sidebar:
 build-toolbar:
     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-toolbar pnpm build
 
-build-sidepanel:
-    PAGES_BASE_PATH= CHATBOT_TARGET=chrome-sidepanel pnpm build
+# 
+# build-sidepanel:
+#     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-sidepanel pnpm build
 
 # Build electron tray app
 build-tray:

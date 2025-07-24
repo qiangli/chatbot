@@ -68,26 +68,27 @@ export default class CustomProvider implements Provider {
   }
 }
 
-function createMessage(id: string, content: string): WsMessage {
-  const payload = {
-    version: '1',
-    format: 'chatbot',
-    parts: null,
-    content: content,
-  };
-
+function createMessage(id: string, payload: string): WsMessage {
   const msg: WsMessage = {
     id: id,
-    type: 'hub',
-    recipient: 'ai',
-    payload: JSON.stringify(payload),
+    type: "hub",
+    recipient: "ai",
+    payload: payload,
   };
 
   return msg;
 }
 
 function sendMessage(message: Message): Promise<WsMessage> {
-  const req = createMessage(message.id, message.content);
+  const req = createMessage(
+    message.id,
+    JSON.stringify({
+      version: "1",
+      format: "chatbot",
+      content: message.content,
+      parts: null,
+    }),
+  );
   const resp = sendWsMessage(req);
   return resp;
 }

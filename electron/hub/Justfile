@@ -12,3 +12,6 @@ start:
 
 tidy:
     npm run lint
+
+package:
+    npm run package

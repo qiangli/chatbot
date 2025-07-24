@@ -3,7 +3,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Message format. https://github.com/qiangli/ai
+ * Message format
+ * https://github.com/qiangli/ai/blob/main/internal/hub/api/message.go
  */
 type WsMessage = {
   type: string;

@@ -7,6 +7,7 @@ AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI C
   - [Widget / Extension / Desktop App](#widget--extension--desktop-app)
     - [Web Widget - Icon/Chatbox toggle](#web-widget---iconchatbox-toggle)
     - [Web UI - Full web page](#web-ui---full-web-page)
+    - [Chrome Extension - Sidepanel V2](#chrome-extension---sidepanel-v2)
     - [Chrome Extension - Sidepanel](#chrome-extension---sidepanel)
     - [Chrome Extension - Toolbar button](#chrome-extension---toolbar-button)
     - [VSCode Extension - Sidebar view](#vscode-extension---sidebar-view)
@@ -34,6 +35,10 @@ AI Chatbot is a chat web app built with vite+react+nextjs to work with the [AI C
 ### Web UI - Full web page
 
 ![Web UI image](./assistant/docs/web-ui.png)
+
+### Chrome Extension - Sidepanel V2
+
+![Sidepanel V2 UI](./docs/chrome-sidepanel-v2.png)
 
 ### Chrome Extension - Sidepanel
 

@@ -3,8 +3,9 @@
 //
 const { app, BrowserWindow, Menu, Tray } = require('electron/main')
 const { nativeImage } = require('electron/common')
-const { exec } = require('child_process');
-
+const { exec } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
 const red = nativeImage.createFromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACTSURBVHgBpZKBCYAgEEV/TeAIjuIIbdQIuUGt0CS1gW1iZ2jIVaTnhw+Cvs8/OYDJA4Y8kR3ZR2/kmazxJbpUEfQ/Dm/UG7wVwHkjlQdMFfDdJMFaACebnjJGyDWgcnZu1/lrCrl6NCoEHJBrDwEr5NrT6ko/UV8xdLAC2N49mlc5CylpYh8wCwqrvbBGLoKGvz8Bfq0QPWEUo/EAAAAASUVORK5CYII=')
@@ -19,8 +20,10 @@ function getBaseDir() {
   return distDir;
 }
 
+let mainWindow;
+
 function createWindow() {
-  const win = new BrowserWindow();
+  mainWindow = new BrowserWindow();
   const baseDir = getBaseDir();
   const tpl = path.join(baseDir, 'index.html');
 
@@ -43,7 +46,7 @@ function createWindow() {
         console.log(`File has been saved to ${newFilePath}`);
       }
       const htmlFile = path.join(baseDir, '__index.html');
-      win.loadFile(htmlFile);
+      mainWindow.loadFile(htmlFile);
     });
   });
 }
@@ -53,29 +56,89 @@ let aiProcess = null;
 
 function startHub() {
   tray.setImage(green);
-  
-  const args = '--agent ask --hub --hub-address ":58080" --hub-pg-address ":25432" --hub-mysql-address ":3306" --hub-redis-address ":6379"';
-  const command = `ai ${args}`;
 
+  const homeDir = os.homedir();
+  const aiDir = path.join(homeDir, ".ai");
+
+  // Ensure the .ai directory exists
+  if (!fs.existsSync(aiDir)) {
+    fs.mkdirSync(aiDir);
+  }
+
+  const pidFilePath = path.join(aiDir, 'hub.pid');
+
+  try {
+    if (fs.existsSync(pidFilePath)) {
+      const pid = fs.readFileSync(pidFilePath, 'utf8').trim();
+      process.kill(Number(pid));
+      console.log(`Terminated previous hub process with PID: ${pid}`);
+    }
+  } catch (error) {
+    console.error(`Error terminating previous process: ${error.message}`);
+  }
+
+  //
+  const configFilePath = path.join(aiDir, "hub.json");
+
+  // Default configuration settings
+  const defaultConfig = {
+    program: "ai",
+    args: [
+      "--agent", "ask",
+      "--hub",
+      "--hub-address", ":58080",
+      "--hub-pg-address", ":25432",
+      "--hub-mysql-address", ":3306",
+      "--hub-redis-address", ":6379"
+    ]
+  };
+
+  // Check if hub.json exists, and create it with default settings if not
+  if (!fs.existsSync(configFilePath)) {
+    fs.writeFileSync(configFilePath, JSON.stringify(defaultConfig, null, 2), 'utf8');
+  }
+
+  // Read configuration from hub.json
+  let config = defaultConfig;
+  try {
+    const configData = fs.readFileSync(configFilePath, 'utf8');
+    config = JSON.parse(configData);
+  } catch (err) {
+    console.error(`Failed to read or parse config file: ${err}`);
+  }
+
+  // Construct command from config
+  const command = `${config.program} ${config.args.join(' ')}`;
   console.log("hub command", command);
 
   // Start the external app "ai" and capture the process reference
-  aiProcess = exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing 'ai': ${error.message}`);
-      tray.setTitle("Failed");
-      return;
-    }
-    if (stderr) {
-      console.error(`'ai' stderr: ${stderr}`);
-      tray.setTitle("Failed");
-      return;
-    }
-    console.log(`'ai' stdout: ${stdout}`);
-  });
+  try {
+    aiProcess = exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing 'ai': ${error.message}`);
+        return;
+      }
+      console.log(`'ai' stdout: ${stdout}`);
+    });
 
-  tray.setTitle("AI Hub running");
-  console.log(`'ai' started with PID: ${aiProcess.pid}`);
+    tray.setTitle("AI Hub running");
+    console.log(`'ai' started with PID: ${aiProcess.pid}`);
+  } catch (error) {
+    console.error(`Error starting hub ${error.message}`);
+    tray.setTitle("Start failed");
+  }
+
+  if (!fs.existsSync(aiDir)) {
+    fs.mkdirSync(aiDir);
+  }
+
+  fs.writeFile(pidFilePath, aiProcess.pid.toString(), 'utf8', (err) => {
+    if (err) {
+      console.error(`Failed to write PID to file: ${err}`);
+    } else {
+      console.log(`PID written to ${pidFilePath}`);
+    }
+  });
 }
 
 function stopHub() {
@@ -88,6 +151,15 @@ function stopHub() {
       process.kill(aiProcess.pid);
       console.log(`'ai' process with PID ${aiProcess.pid} has been terminated`);
       aiProcess = null; // Reset the process reference
+
+      // Remove the PID file if it exists
+      const homeDir = os.homedir();
+      const pidFilePath = path.join(homeDir, '.ai', 'hub.pid');
+      if (fs.existsSync(pidFilePath)) {
+        fs.unlinkSync(pidFilePath);
+        console.log(`Removed PID file at ${pidFilePath}`);
+      }
+
     } catch (error) {
       console.error(`Error killing 'ai' process: ${error.message}`);
     }

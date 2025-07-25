@@ -25,7 +25,7 @@ build-toolbar:
 
 # Build electron tray app
 build-tray:
-    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray pnpm build
+    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray NEXT_PUBLIC_SENDER_ID=tray pnpm build
 
 tidy:
     pnpm format

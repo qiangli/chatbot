@@ -7,21 +7,23 @@ import (
 )
 
 func main() {
-    address := flag.String("address", ":18080", "HTTP network address")
+	address := flag.String("address", ":18080", "HTTP network address")
 
-    mux := http.NewServeMux()
+	flag.Parse()
 
-    assistantServer := http.StripPrefix("/assistant/", http.FileServer(http.Dir("assistant/dist")))
-    mux.Handle("/assistant/", assistantServer)
+	mux := http.NewServeMux()
 
-    widgetServer := http.StripPrefix("/widget/", http.FileServer(http.Dir("widget/dist")))
-    mux.Handle("/widget/", widgetServer)
+	assistantServer := http.StripPrefix("/assistant/", http.FileServer(http.Dir("assistant/dist")))
+	mux.Handle("/assistant/", assistantServer)
 
-    fileServer := http.FileServer(http.Dir("server/static"))
-    mux.Handle("/", fileServer)
+	widgetServer := http.StripPrefix("/widget/", http.FileServer(http.Dir("widget/dist")))
+	mux.Handle("/widget/", widgetServer)
 
-    log.Printf("Starting chatbot on %s...", *address)
-    if err := http.ListenAndServe(*address, mux); err != nil {
-        log.Fatal(err)
-    }
+	fileServer := http.FileServer(http.Dir("server/static"))
+	mux.Handle("/", fileServer)
+
+	log.Printf("Starting chatbot on %s...", *address)
+	if err := http.ListenAndServe(*address, mux); err != nil {
+		log.Fatal(err)
+	}
 }

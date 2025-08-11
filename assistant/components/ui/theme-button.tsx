@@ -25,11 +25,7 @@ export function ThemeToggle() {
         React.startTransition(() => {
           const newTheme = theme === "light" ? "dark" : "light";
           setTheme(newTheme);
-          cookies.set("theme", newTheme, {
-            expires: 365 * 100,
-            path: "/",
-            domain: ".openaide.localhost",
-          });
+          cookies.set("theme", newTheme);
         });
       }}
     >

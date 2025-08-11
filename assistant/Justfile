@@ -9,6 +9,9 @@ install:
 update:
     pnpm update
 
+dev:
+    pnpm dev
+
 build:
     PAGES_BASE_PATH=/assistant CHATBOT_TARGET=web NEXT_PUBLIC_SENDER_ID=web pnpm build
 

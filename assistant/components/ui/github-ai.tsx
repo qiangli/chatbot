@@ -1,5 +1,3 @@
-import { ThemeToggle } from "@/components/ui/theme-button";
-
 const GithubAI = () => {
   return (
     <div>
@@ -11,7 +9,6 @@ const GithubAI = () => {
           columnGap: 3,
         }}
       >
-        <ThemeToggle key={0} />
         <span key={1}>All roads lead to Rome</span>
         <span key={2}>
           <a href="https://github.com/qiangli/ai" target="_blank">

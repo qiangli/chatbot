@@ -7,6 +7,7 @@ const GithubAI = () => {
           flexDirection: "row",
           alignItems: "center",
           columnGap: 3,
+          fontSize: "12px",
         }}
       >
         <span key={1}>All roads lead to Rome</span>

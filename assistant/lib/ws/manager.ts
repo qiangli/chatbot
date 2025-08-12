@@ -1,6 +1,7 @@
 // manager.ts
 
 import { v4 as uuidv4 } from "uuid";
+import Cookies from "js-cookie";
 
 /**
  * Message format
@@ -17,6 +18,8 @@ type WsMessage = {
   reference?: string;
   code?: string;
   timestamp?: string;
+
+  token?: string;
 };
 
 const HEART_RATE = 10 * 1000;
@@ -196,6 +199,7 @@ class WSManager {
   // send request and wait for response
   sendWsMessage = (message: WsMessage): Promise<WsMessage> => {
     message.sender = this.sender;
+    message.token = Cookies.get("token");
 
     return new Promise((resolve, reject) => {
       if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
@@ -244,10 +248,10 @@ class WSManager {
 
   // start or restart hub
   startHub(url: string, sender: string) {
-    // whereAmI();
+    const senderId = `${sender}-${uuidv4()}`;
 
     this.setUrl(url);
-    this.setSender(sender);
+    this.setSender(senderId);
     if (this.webSocket) {
       this.disconnect(true /* intentional */);
     }

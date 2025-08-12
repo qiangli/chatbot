@@ -32,10 +32,11 @@ export function CustomRuntimeProvider({
     },
   });
   const senderId = process.env.NEXT_PUBLIC_SENDER_ID || "unknown-sender";
+  const hubUrl = process.env.NEXT_PUBLIC_HUB_URL || "ws://localhost:58080/hub";
 
   return (
     <>
-      <Hub url={"ws://localhost:58080/hub"} sender={`assistant-${senderId}`} />
+      <Hub url={hubUrl} sender={`assistant-${senderId}`} />
       <AssistantRuntimeProvider runtime={runtime}>
         {children}
       </AssistantRuntimeProvider>

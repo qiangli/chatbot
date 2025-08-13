@@ -1,4 +1,5 @@
 // manager.ts
+"use client";
 
 import { v4 as uuidv4 } from "uuid";
 import Cookies from "js-cookie";
@@ -208,6 +209,10 @@ class WSManager {
       }
       if (!message.sender) {
         reject(new Error("Sender is not set"));
+        return;
+      }
+      if (!message.token) {
+        reject(new Error("Authentication is required"));
         return;
       }
       if (!message.id) {

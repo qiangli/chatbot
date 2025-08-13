@@ -2,7 +2,6 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import Cookies from "js-cookie";
 
 /**
  * Message format
@@ -19,8 +18,6 @@ type WsMessage = {
   reference?: string;
   code?: string;
   timestamp?: string;
-
-  token?: string;
 };
 
 const HEART_RATE = 10 * 1000;
@@ -200,7 +197,6 @@ class WSManager {
   // send request and wait for response
   sendWsMessage = (message: WsMessage): Promise<WsMessage> => {
     message.sender = this.sender;
-    message.token = Cookies.get("token");
 
     return new Promise((resolve, reject) => {
       if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
@@ -209,10 +205,6 @@ class WSManager {
       }
       if (!message.sender) {
         reject(new Error("Sender is not set"));
-        return;
-      }
-      if (!message.token) {
-        reject(new Error("Authentication is required"));
         return;
       }
       if (!message.id) {

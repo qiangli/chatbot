@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 
 let outDir: string;
 const target = process.env.CHATBOT_TARGET;
+
 switch (target) {
   case "web":
-    outDir = "dist/";
+    outDir = process.env.BUILD_CHAT_DIST_DIR ?? "dist/";
     break;
   case "vscode-sidebar":
     outDir = "../extension/vscode/sidebar/dist/";

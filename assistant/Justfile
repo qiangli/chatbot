@@ -13,8 +13,9 @@ dev:
     pnpm dev
 
 build:
-    NEXT_PUBLIC_SENDER_ID="web" \
-        NEXT_PUBLIC_HUB_URL="ws://localhost:18080/hub" \
+    NEXT_PUBLIC_SENDER_ID="${CHATBOT_ID:-web}" \
+        BUILD_CHAT_DIST_DIR=${BUILD_CHAT_DIST_DIR} \
+        NEXT_PUBLIC_HUB_URL="${NEXT_PUBLIC_HUB_URL}" \
         PAGES_BASE_PATH=/assistant CHATBOT_TARGET=web pnpm build
 
 # Build vscode sidebar

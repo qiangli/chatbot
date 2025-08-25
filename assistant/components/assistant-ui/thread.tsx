@@ -5,7 +5,6 @@ import {
   MessagePrimitive,
   ThreadPrimitive,
 } from "@assistant-ui/react";
-import type { FC } from "react";
 import {
   ArrowDownIcon,
   CheckIcon,
@@ -18,15 +17,15 @@ import {
   AudioLinesIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import React, { FC, useEffect, useState } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { ToolFallback } from "./tool-fallback";
-
 import { Composer } from "./compose";
-
 import { UserMessageAttachments } from "./attachment";
+import { Agent } from "@/types/agent";
 
 export const Thread: FC = () => {
   return (
@@ -79,11 +78,71 @@ const ThreadWelcome: FC = () => {
     <ThreadPrimitive.Empty>
       <div className="flex w-full max-w-[var(--thread-max-width)] flex-grow flex-col">
         <div className="flex w-full flex-grow flex-col items-center justify-center">
-          <p className="mt-4 font-medium">How can I help you today?</p>
+          <p className="mt-4 font-medium">
+            To chat with a specific agent you created or one shared with you:
+            <br />
+            Use @&lt;agent&gt; followed by your message...
+          </p>
         </div>
+        <ThreadAgentSuggestions />
         <ThreadWelcomeSuggestions />
       </div>
     </ThreadPrimitive.Empty>
+  );
+};
+
+const ThreadAgentSuggestions: FC = () => {
+  // const [agents, setAgents] = useState<Agent[]>([]);
+  const [sharedAgents, setSharedAgents] = useState<Agent[]>([]);
+
+  useEffect(() => {
+    // const fetchAgents = async () => {
+    //   const result = await axios.get("/api/agents");
+    //   setAgents(result.data);
+    // };
+
+    const fetchSharedAgents = async () => {
+      const result = await axios.get("/api/shared/agents");
+      setSharedAgents(result.data);
+    };
+
+    // fetchAgents();
+    fetchSharedAgents();
+  }, []);
+
+  return (
+    <div className="mt-3 flex w-full items-stretch justify-center">
+      <div className="grid max-h-72 grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto">
+        {/* {agents.map((agent) => (
+          <div
+            key={agent.id}
+            className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-start justify-center rounded-lg border p-3 transition-colors ease-in"
+          >
+            <span className="line-clamp-2 text-ellipsis text-sm font-semibold">
+              @{agent.name} - {agent.display}
+            </span>
+          </div>
+        ))} */}
+
+        {/* {agents.length === 0 && (
+          <a href="/agents" className="text-blue-600 underline">
+            Create your own agent
+          </a>
+        )} */}
+
+        {sharedAgents?.length > 0 &&
+          sharedAgents.map((sharedAgent) => (
+            <div
+              key={sharedAgent.id}
+              className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-start justify-center rounded-lg border p-3 transition-colors ease-in"
+            >
+              <span className="line-clamp-2 text-ellipsis text-sm font-semibold">
+                @{sharedAgent.name} - {sharedAgent.display}
+              </span>
+            </div>
+          ))}
+      </div>
+    </div>
   );
 };
 

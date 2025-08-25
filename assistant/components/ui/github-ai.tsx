@@ -12,7 +12,7 @@ const GithubAI = () => {
       >
         <span key={1}>All roads lead to Rome</span>
         <span key={2}>
-          <a href="https://github.com/qiangli/ai" target="_blank">
+          <a href="https://github.com/openaide/dhnt.io" target="_blank">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

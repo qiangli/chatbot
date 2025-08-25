@@ -200,9 +200,10 @@ class WSManager {
 
     return new Promise((resolve, reject) => {
       if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
-        reject(new Error("WebSocket is not open"));
+        reject(new Error("Service unavailable. Please try again later."));
         return;
       }
+
       if (!message.sender) {
         reject(new Error("Sender is not set"));
         return;

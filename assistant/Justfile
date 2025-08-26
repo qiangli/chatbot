@@ -26,8 +26,10 @@ build-toolbar:
     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-toolbar pnpm build
 
 # 
+# see  chatbot/extension/chrome/sidepanel2/ui/Justfile
 # build-sidepanel:
 #     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-sidepanel pnpm build
+#
 
 # Build electron tray app
 build-tray:

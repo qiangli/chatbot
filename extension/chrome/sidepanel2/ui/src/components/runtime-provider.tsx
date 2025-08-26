@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { AssistantRuntimeProvider, useLocalRuntime } from "@assistant-ui/react";
 import {
   CompositeAttachmentAdapter,
@@ -35,22 +35,25 @@ export function CustomRuntimeProvider({
   });
   // const senderId = process.env.NEXT_PUBLIC_SENDER_ID || "unknown-sender";
   // const hubUrl = process.env.NEXT_PUBLIC_HUB_URL || "ws://localhost:58080/hub";
-  const [runtimeConfig, setRuntimeConfig] = useState({ senderId: '', hubUrl: '' });
+  const [runtimeConfig, setRuntimeConfig] = useState({
+    senderId: "",
+    hubUrl: "",
+  });
 
   useEffect(() => {
     // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
-        const { data } = await axios.get('/api/config/sp');
+        const { data } = await axios.get("https://ai.dhnt.io/api/config/sp");
         setRuntimeConfig({
-          senderId: data.senderId || 'unknown-sender',
-          hubUrl: data.hubUrl || 'ws://localhost:18080/hub',
+          senderId: data.senderId || "unknown-sender",
+          hubUrl: data.hubUrl || "ws://localhost:18080/hub",
         });
       } catch (error) {
-        console.error('Could not fetch runtime configuration', error);
+        console.error("Could not fetch runtime configuration", error);
         setRuntimeConfig({
-          senderId: 'unknown-sender',
-          hubUrl: 'ws://localhost:18080/hub',
+          senderId: "unknown-sender",
+          hubUrl: "ws://localhost:18080/hub",
         });
       }
     };

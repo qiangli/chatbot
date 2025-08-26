@@ -1,9 +1,11 @@
 // manager.ts
+"use client";
 
 import { v4 as uuidv4 } from "uuid";
 
 /**
- * Message format. https://github.com/qiangli/ai
+ * Message format
+ * https://github.com/qiangli/ai/blob/main/internal/hub/api/message.go
  */
 type WsMessage = {
   type: string;
@@ -198,9 +200,10 @@ class WSManager {
 
     return new Promise((resolve, reject) => {
       if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
-        reject(new Error("WebSocket is not open"));
+        reject(new Error("Service unavailable. Please try again later."));
         return;
       }
+
       if (!message.sender) {
         reject(new Error("Sender is not set"));
         return;
@@ -243,10 +246,10 @@ class WSManager {
 
   // start or restart hub
   startHub(url: string, sender: string) {
-    // whereAmI();
+    const senderId = `${sender}-${uuidv4()}`;
 
     this.setUrl(url);
-    this.setSender(sender);
+    this.setSender(senderId);
     if (this.webSocket) {
       this.disconnect(true /* intentional */);
     }

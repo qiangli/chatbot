@@ -6,9 +6,9 @@ import { SendHorizontalIcon, StopCircleIcon } from "lucide-react";
 import { TooltipIconButton } from "./tooltip-icon-button";
 import { ComposerAttachments, ComposerAddAttachment } from "./attachment";
 import { ComposerProvider } from "./composer-provider";
-import { ComposerScreenshots, ComposerAddScreenshot } from "./screenshot";
 
-import { ComposerSelections, ComposerAddSelection } from "./selection";
+// import { ComposerScreenshots, ComposerAddScreenshot } from "./screenshot";
+// import { ComposerSelections, ComposerAddSelection } from "./selection";
 
 import { ComposerVoices, ComposerAddVoice } from "./voice-input";
 
@@ -17,13 +17,13 @@ export const Composer: FC = () => {
     <ComposerProvider>
       <ComposerPrimitive.Root className="flex w-full flex-wrap items-end rounded-lg bg-inherit px-2.5 shadow-sm transition-colors ease-in">
         <ComposerAttachments />
-        <ComposerScreenshots />
-        <ComposerSelections />
+        {/* <ComposerScreenshots />
+        <ComposerSelections /> */}
         <ComposerVoices />
 
         <ComposerAddAttachment />
-        <ComposerAddScreenshot />
-        <ComposerAddSelection />
+        {/* <ComposerAddScreenshot /> */}
+        {/* <ComposerAddSelection /> */}
         <ComposerAddVoice />
       </ComposerPrimitive.Root>
       <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">

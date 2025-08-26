@@ -46,14 +46,14 @@ export function ProfileDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {/* {user && (
+          {user && (
             <DropdownMenuItem asChild>
-              <Link to="/settings/profile">
-                Profile
+              <Link to="/access-token">
+                Access token
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </Link>
             </DropdownMenuItem>
-          )} */}
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             {user ? (

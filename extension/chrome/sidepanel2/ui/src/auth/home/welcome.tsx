@@ -14,12 +14,12 @@ export default function Welcome() {
         <Card className="col-span-1 lg:col-span-4">
           <CardHeader>
             <CardTitle></CardTitle>
-            <CardDescription></CardDescription>
+            <CardDescription>Authentication is required</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
             <div>
-              <Link to={"/signin"}>
-                <span>{">  Sign In"}</span>
+              <Link to={"/access-token"}>
+                <span>Signin with access token</span>
               </Link>
             </div>
           </CardContent>

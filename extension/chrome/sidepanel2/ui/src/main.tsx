@@ -1,5 +1,5 @@
 // import { StrictMode } from "react";
-// import { createRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 
 // import App from "./App.tsx";
 // import "./index.css";
@@ -23,7 +23,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 // );
 
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
+// import ReactDOM from "react-dom/client";
 import { AxiosError } from "axios";
 import {
   QueryCache,
@@ -83,7 +83,10 @@ const queryClient = new QueryClient({
           router.navigate({ to: "/500" });
         }
         if (error.response?.status === 403) {
-          router.navigate({ to: "/403" });
+          // router.navigate({ to: "/403" });
+          useAuthStore.getState().auth.reset();
+          const redirect = `${router.history.location.href}`;
+          router.navigate({ to: "/signin", search: { redirect } });
         }
       }
     },
@@ -105,25 +108,42 @@ declare module "@tanstack/react-router" {
   }
 }
 
-// Render the app
-const rootElement = document.getElementById("root")!;
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <CustomRuntimeProvider>
-          <ThemeProvider
-            defaultTheme="dark"
-            storageKey="theme"
-            disableTransitionOnChange
-          >
-            {/* <FontProvider> */}
-            <RouterProvider router={router} />
-            {/* </FontProvider> */}
-          </ThemeProvider>
-        </CustomRuntimeProvider>
-      </QueryClientProvider>
-    </StrictMode>,
-  );
-}
+// // Render the app
+// const rootElement = document.getElementById("root")!;
+// if (!rootElement.innerHTML) {
+//   const root = ReactDOM.createRoot(rootElement);
+//   root.render(
+//     <StrictMode>
+//       <QueryClientProvider client={queryClient}>
+//         <CustomRuntimeProvider>
+//           <ThemeProvider
+//             defaultTheme="dark"
+//             storageKey="theme"
+//             disableTransitionOnChange
+//           >
+//             {/* <FontProvider> */}
+//             <RouterProvider router={router} />
+//             {/* </FontProvider> */}
+//           </ThemeProvider>
+//         </CustomRuntimeProvider>
+//       </QueryClientProvider>
+//     </StrictMode>,
+//   );
+// }
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <CustomRuntimeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </CustomRuntimeProvider>
+    </QueryClientProvider>
+  </StrictMode>,
+);

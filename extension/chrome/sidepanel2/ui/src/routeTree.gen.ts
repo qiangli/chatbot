@@ -18,6 +18,7 @@ import { Route as errors404RouteImport } from './routes/(errors)/404'
 import { Route as errors403RouteImport } from './routes/(errors)/403'
 import { Route as errors401RouteImport } from './routes/(errors)/401'
 import { Route as authSigninRouteImport } from './routes/(auth)/signin'
+import { Route as authAccessTokenRouteImport } from './routes/(auth)/access-token'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -63,8 +64,14 @@ const authSigninRoute = authSigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authAccessTokenRoute = authAccessTokenRouteImport.update({
+  id: '/(auth)/access-token',
+  path: '/access-token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/access-token': typeof authAccessTokenRoute
   '/signin': typeof authSigninRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
@@ -75,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
+  '/access-token': typeof authAccessTokenRoute
   '/signin': typeof authSigninRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
@@ -87,6 +95,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/(auth)/access-token': typeof authAccessTokenRoute
   '/(auth)/signin': typeof authSigninRoute
   '/(errors)/401': typeof errors401Route
   '/(errors)/403': typeof errors403Route
@@ -99,6 +108,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/access-token'
     | '/signin'
     | '/401'
     | '/403'
@@ -108,10 +118,20 @@ export interface FileRouteTypes {
     | '/signout'
     | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/signin' | '/401' | '/403' | '/404' | '/500' | '/503' | '/signout' | '/'
+  to:
+    | '/access-token'
+    | '/signin'
+    | '/401'
+    | '/403'
+    | '/404'
+    | '/500'
+    | '/503'
+    | '/signout'
+    | '/'
   id:
     | '__root__'
     | '/_authenticated'
+    | '/(auth)/access-token'
     | '/(auth)/signin'
     | '/(errors)/401'
     | '/(errors)/403'
@@ -124,6 +144,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  authAccessTokenRoute: typeof authAccessTokenRoute
   authSigninRoute: typeof authSigninRoute
   errors401Route: typeof errors401Route
   errors403Route: typeof errors403Route
@@ -197,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSigninRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/access-token': {
+      id: '/(auth)/access-token'
+      path: '/access-token'
+      fullPath: '/access-token'
+      preLoaderRoute: typeof authAccessTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -215,6 +243,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  authAccessTokenRoute: authAccessTokenRoute,
   authSigninRoute: authSigninRoute,
   errors401Route: errors401Route,
   errors403Route: errors403Route,

@@ -46,14 +46,14 @@ export function CustomRuntimeProvider({
       try {
         const { data } = await axios.get("https://ai.dhnt.io/api/config/sp");
         setRuntimeConfig({
-          senderId: data.senderId || "unknown-sender",
-          hubUrl: data.hubUrl || "ws://localhost:18080/hub",
+          senderId: data.senderId || "default-sender",
+          hubUrl: data.hubUrl || "wss://ai.dhnt.io/hub",
         });
       } catch (error) {
         console.error("Could not fetch runtime configuration", error);
         setRuntimeConfig({
-          senderId: "unknown-sender",
-          hubUrl: "ws://localhost:18080/hub",
+          senderId: "default-sender",
+          hubUrl: "wss://ai.dhnt.io/hub",
         });
       }
     };

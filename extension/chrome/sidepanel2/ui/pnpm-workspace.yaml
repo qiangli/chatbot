@@ -1,2 +1,7 @@
 ignoredBuiltDependencies:
   - "@swc/core"
+  - "@tailwindcss/oxide"
+  - esbuild
+
+onlyBuiltDependencies:
+  - sharp

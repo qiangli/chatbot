@@ -1,5 +1,10 @@
 // import { handleServerError } from "./handle-server-error";
 
+// import { useAuth } from "@/stores/auth-store";
+// const ACCESS_TOKEN = "access-token";
+
+import { useAuthStore } from "@/stores/auth-store";
+
 const API_BASE_URL = "https://ai.dhnt.io";
 
 // export async function fetchAgentList() {
@@ -17,7 +22,12 @@ const API_BASE_URL = "https://ai.dhnt.io";
 
 export async function fetchMe() {
   try {
-    const response = await fetch(`${API_BASE_URL}/cloud/me`);
+    const token = useAuthStore.getState().auth.accessToken;
+    const response = await fetch(`${API_BASE_URL}/cloud/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       throw new Error("service failure");
     }

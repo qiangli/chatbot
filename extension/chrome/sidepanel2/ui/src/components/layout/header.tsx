@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 // import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ProfileDropdown } from "./profile-dropdown";
 // import { ThemeToggle } from './theme-toggle'
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   fixed?: boolean;
@@ -55,7 +56,7 @@ export const TopHeader = () => {
       {/* <Search /> */}
       <div className="ml-auto flex items-center space-x-4">
         {/* <ThemeSwitch /> */}
-        {/* <ThemeToggle /> */}
+        <ThemeToggle />
         <ProfileDropdown />
       </div>
     </Header>

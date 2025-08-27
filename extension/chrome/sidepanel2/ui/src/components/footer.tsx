@@ -1,4 +1,4 @@
-import { ThemeToggle } from "./theme-button";
+// import { ThemeToggle } from "./theme-button";
 
 const Footer = () => {
   return (
@@ -10,7 +10,8 @@ const Footer = () => {
         columnGap: 3,
       }}
     >
-      <ThemeToggle key={0} />
+      {/* <ThemeToggle key={0} /> */}
+      <span key={0}></span>
       <span key={1}>All roads lead to Rome</span>
       <span key={2}>
         <a href="https://github.com/openaide/dhnt.io" target="_blank">

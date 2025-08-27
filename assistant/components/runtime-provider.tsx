@@ -44,16 +44,16 @@ export function CustomRuntimeProvider({
     // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
-        const { data } = await axios.get("/api/config/assistant");
+        const { data } = await axios.get("/config/assistant");
         setRuntimeConfig({
-          senderId: data.senderId || "unknown-sender",
-          hubUrl: data.hubUrl || "ws://localhost:18080/hub",
+          senderId: data.senderId`assistant-${data.senderId}`,
+          hubUrl: data.hubUrl || "wss://ai.dhnt.io/hub",
         });
       } catch (error) {
         console.error("Could not fetch runtime configuration", error);
         setRuntimeConfig({
-          senderId: "unknown-sender",
-          hubUrl: "ws://localhost:18080/hub",
+          senderId: "assistant-unknown",
+          hubUrl: "wss://ai.dhnt.io/hub",
         });
       }
     };

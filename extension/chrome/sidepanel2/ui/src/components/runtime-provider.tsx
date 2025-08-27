@@ -44,15 +44,15 @@ export function CustomRuntimeProvider({
     // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
-        const { data } = await axios.get("https://ai.dhnt.io/api/config/sp");
+        const { data } = await axios.get("https://ai.dhnt.io/config/sidepanel");
         setRuntimeConfig({
-          senderId: data.senderId || "default-sender",
+          senderId: `sidepanel-${data.senderId}`,
           hubUrl: data.hubUrl || "wss://ai.dhnt.io/hub",
         });
       } catch (error) {
         console.error("Could not fetch runtime configuration", error);
         setRuntimeConfig({
-          senderId: "default-sender",
+          senderId: "sidepanel-unkown",
           hubUrl: "wss://ai.dhnt.io/hub",
         });
       }

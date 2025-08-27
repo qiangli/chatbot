@@ -46,14 +46,14 @@ export function CustomRuntimeProvider({
       try {
         const { data } = await axios.get("/config/assistant");
         setRuntimeConfig({
-          senderId: data.senderId`assistant-${data.senderId}`,
-          hubUrl: data.hubUrl || "wss://ai.dhnt.io/hub",
+          senderId: `assistant-${data.senderId}`,
+          hubUrl: data.hubUrl || "",
         });
       } catch (error) {
         console.error("Could not fetch runtime configuration", error);
         setRuntimeConfig({
           senderId: "assistant-unknown",
-          hubUrl: "wss://ai.dhnt.io/hub",
+          hubUrl: "",
         });
       }
     };

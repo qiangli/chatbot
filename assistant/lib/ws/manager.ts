@@ -68,7 +68,7 @@ class WSManager {
     this.cleanup();
 
     try {
-      this.webSocket = new WebSocket(this.hubUrl);
+      this.webSocket = new WebSocket(this.hubUrl + "?auth=1");
     } catch (e) {
       console.warn("websocket", e);
     }
@@ -189,7 +189,7 @@ class WSManager {
       // this.webSocket.onclose =
       //   this.webSocket.onmessage =
       //   this.webSocket.onerror =
-      //     null;
+      //   null;
       this.webSocket = null;
     }
   }

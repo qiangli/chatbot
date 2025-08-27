@@ -46,8 +46,8 @@ export function CustomRuntimeProvider({
       try {
         const { data } = await axios.get("/config/assistant");
         setRuntimeConfig({
-          senderId: `assistant-${data.senderId}`,
-          hubUrl: data.hubUrl || "",
+          senderId: data.senderId ?? "",
+          hubUrl: data.hubUrl ?? "",
         });
       } catch (error) {
         console.error("Could not fetch runtime configuration", error);

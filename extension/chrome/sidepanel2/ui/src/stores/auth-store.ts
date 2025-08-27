@@ -1,9 +1,8 @@
 import { create } from "zustand";
-
-const ACCESS_TOKEN = "access-token";
+import { ACCESS_TOKEN } from "@/types/constants";
 
 export interface AuthUser {
-  id: string;
+  // id: string;
   name: string;
   email: string;
   avatar: string;

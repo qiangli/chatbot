@@ -50,7 +50,7 @@ Header.displayName = "Header";
 export const TopHeader = () => {
   return (
     <Header fixed>
-      <div className="ml-auto flex items-center space-x-4">
+      <div>
         <ThemeToggle />
         <ProfileDropdown />
       </div>

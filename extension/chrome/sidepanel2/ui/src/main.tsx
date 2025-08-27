@@ -37,6 +37,7 @@ import { handleServerError } from "@/utils/handle-server-error";
 // import { FontProvider } from './context/font-context'
 // import { ThemeProvider } from './context/theme-context'
 import "./index.css";
+
 // Generated Routes
 import { routeTree } from "./routeTree.gen";
 
@@ -76,17 +77,18 @@ const queryClient = new QueryClient({
           toast.error("Session expired!");
           useAuthStore.getState().auth.reset();
           const redirect = `${router.history.location.href}`;
-          router.navigate({ to: "/signin", search: { redirect } });
+          // router.navigate({ to: "/signin", search: { redirect } })
+          router.navigate({ to: "/access-token", search: { redirect } });
         }
         if (error.response?.status === 500) {
           toast.error("Internal Server Error!");
           router.navigate({ to: "/500" });
         }
         if (error.response?.status === 403) {
-          // router.navigate({ to: "/403" });
-          useAuthStore.getState().auth.reset();
-          const redirect = `${router.history.location.href}`;
-          router.navigate({ to: "/signin", search: { redirect } });
+          router.navigate({ to: "/403" });
+        }
+        if (error.response?.status == 404) {
+          router.navigate({ to: "/" });
         }
       }
     },

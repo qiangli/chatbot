@@ -1,9 +1,9 @@
 import { useAuthStore } from "@/stores/auth-store";
 
-const API_BASE_URL = "https://ai.dhnt.io";
+import { BASE_URL } from "@/types/constants";
 
 export default function handleLogout() {
-  fetch(`${API_BASE_URL}/cloud/logout`, {
+  fetch(`${BASE_URL}/cloud/logout`, {
     method: "GET",
     credentials: "include",
   })

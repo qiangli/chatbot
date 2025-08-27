@@ -5,7 +5,8 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Toaster } from "@/components/ui/sonner";
 import { NavigationProgress } from "@/components/navigation-progress";
 import GeneralError from "@/errors/general-error";
-import NotFoundError from "@/errors/not-found-error";
+// import NotFoundError from "@/errors/not-found-error";
+import Home from "@/auth/home";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -25,6 +26,7 @@ export const Route = createRootRouteWithContext<{
       </>
     );
   },
-  notFoundComponent: NotFoundError,
+  // notFoundComponent: NotFoundError,
+  notFoundComponent: Home,
   errorComponent: GeneralError,
 });

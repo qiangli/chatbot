@@ -3,6 +3,7 @@ import { Outlet } from "@tanstack/react-router";
 import { useAuth } from "@/stores/auth-store";
 import { cn } from "@/lib/utils";
 import { useMe } from "@/hooks/use-me";
+import { useNavigate } from "@tanstack/react-router";
 
 interface Props {
   children?: React.ReactNode;
@@ -11,6 +12,7 @@ interface Props {
 export function AuthenticatedLayout({ children }: Props) {
   const { setUser } = useAuth();
   const { user, loading } = useMe();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -25,6 +27,11 @@ export function AuthenticatedLayout({ children }: Props) {
   if (loading) return <div>Loading...</div>;
 
   console.log("user", user);
+
+  if (!user) {
+    navigate({ to: "/access-token" });
+    return null;
+  }
 
   return (
     <>

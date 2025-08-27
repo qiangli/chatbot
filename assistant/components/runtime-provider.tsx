@@ -40,10 +40,12 @@ export function CustomRuntimeProvider({
     hubUrl: "",
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
+        setIsLoading(true);
         const { data } = await axios.get("/config/assistant");
         setRuntimeConfig({
           senderId: data.senderId ?? "",
@@ -55,11 +57,17 @@ export function CustomRuntimeProvider({
           senderId: "assistant-unknown",
           hubUrl: "",
         });
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchConfig();
   }, []);
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
 
   return (
     <>

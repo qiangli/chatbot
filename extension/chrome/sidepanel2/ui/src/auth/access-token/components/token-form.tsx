@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/stores/auth-store";
 
 type TokenFormProps = HTMLAttributes<HTMLFormElement>;
 
@@ -32,19 +33,22 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
     },
   });
 
+  const { setAccessToken } = useAuth();
+
   const navigate = useNavigate();
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    console.log(data);
+    // console.log(data);
 
-    localStorage.setItem("access-token", data.token);
+    // localStorage.setItem("access-token", data.token);
+    setAccessToken(data.token);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 3000);
+    setIsLoading(false);
     navigate({ to: "/" });
   }
 

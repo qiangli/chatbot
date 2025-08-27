@@ -11,7 +11,7 @@ import type { ThreadUserMessagePart } from "@assistant-ui/react";
 
 import { type WsMessage, sendWsMessage } from "./manager";
 
-const ACCESS_TOKEN = "access-token";
+import { ACCESS_TOKEN } from "@/types/constants";
 
 // get token from local storage
 function getToken() {

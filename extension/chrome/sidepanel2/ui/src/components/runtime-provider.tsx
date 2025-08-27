@@ -13,6 +13,9 @@ import CustomModelAdapter from "@/lib/ws/provider";
 import Hub from "@/components/hub";
 import { ImageAdapter, PDFAdapter, TextAdapter } from "@/adapters";
 
+// const BASE_URL = "https://ai.dhnt.io";
+const BASE_URL = "http://localhost:18080";
+
 // https://www.assistant-ui.com/docs/runtimes/custom/local
 // pnpm dlx shadcn@latest add "https://r.assistant-ui.com/attachment"
 export function CustomRuntimeProvider({
@@ -33,8 +36,6 @@ export function CustomRuntimeProvider({
       speech: new WebSpeechSynthesisAdapter(),
     },
   });
-  // const senderId = process.env.NEXT_PUBLIC_SENDER_ID || "unknown-sender";
-  // const hubUrl = process.env.NEXT_PUBLIC_HUB_URL || "ws://localhost:58080/hub";
   const [runtimeConfig, setRuntimeConfig] = useState({
     senderId: "",
     hubUrl: "",
@@ -44,7 +45,7 @@ export function CustomRuntimeProvider({
     // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
-        const { data } = await axios.get("https://ai.dhnt.io/config/sidepanel");
+        const { data } = await axios.get(BASE_URL + "/config/sidepanel");
         setRuntimeConfig({
           senderId: `sidepanel-${data.senderId}`,
           hubUrl: data.hubUrl || "wss://ai.dhnt.io/hub",

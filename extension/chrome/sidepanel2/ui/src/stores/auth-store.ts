@@ -1,4 +1,3 @@
-// import Cookies from "js-cookie";
 import { create } from "zustand";
 
 const ACCESS_TOKEN = "access-token";
@@ -22,9 +21,6 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>()((set) => {
-  // const cookieState = Cookies.get(ACCESS_TOKEN);
-  // const cookieState = Cookies.get(ACCESS_TOKEN);
-  // const initToken = cookieState ? JSON.parse(cookieState) : "";
   const initToken = localStorage.getItem(ACCESS_TOKEN) ?? "";
   return {
     auth: {
@@ -34,13 +30,11 @@ export const useAuthStore = create<AuthState>()((set) => {
       accessToken: initToken,
       setAccessToken: (accessToken) =>
         set((state) => {
-          // Cookies.set(ACCESS_TOKEN, JSON.stringify(accessToken));
           localStorage.setItem(ACCESS_TOKEN, accessToken);
           return { ...state, auth: { ...state.auth, accessToken } };
         }),
       resetAccessToken: () =>
         set((state) => {
-          // Cookies.remove(ACCESS_TOKEN);
           localStorage.removeItem(ACCESS_TOKEN);
           return {
             ...state,
@@ -49,7 +43,6 @@ export const useAuthStore = create<AuthState>()((set) => {
         }),
       reset: () =>
         set((state) => {
-          // Cookies.remove(ACCESS_TOKEN);
           localStorage.removeItem(ACCESS_TOKEN);
           return {
             ...state,

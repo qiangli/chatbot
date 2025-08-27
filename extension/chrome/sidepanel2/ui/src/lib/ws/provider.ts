@@ -11,6 +11,13 @@ import type { ThreadUserMessagePart } from "@assistant-ui/react";
 
 import { type WsMessage, sendWsMessage } from "./manager";
 
+const ACCESS_TOKEN = "access-token";
+
+// get token from local storage
+function getToken() {
+  return localStorage.getItem(ACCESS_TOKEN);
+}
+
 type CustomProviderConfig = {
   baseUrl?: string;
   debug?: boolean;
@@ -25,6 +32,7 @@ type CustomProviderConfig = {
  */
 class CustomModelAdapter implements ChatModelAdapter {
   private debug: boolean = false;
+  private auth: boolean = false;
 
   public constructor(config: CustomProviderConfig) {
     this.debug = config.debug ?? true;
@@ -71,6 +79,19 @@ class CustomModelAdapter implements ChatModelAdapter {
 
   async handleMessage(msg: Message): Promise<ChatModelRunResult> {
     try {
+      if (!this.auth) {
+        const token = getToken();
+        if (!token) {
+          return this.reply("not authenticated. missing access token.");
+        }
+        const resp = await authenticate(token);
+        if (resp.code === "200") {
+          this.auth = true;
+        } else {
+          return this.reply(`failed to authenticate: ${resp.payload}`);
+        }
+      }
+
       const resp = await sendMessage(msg);
       if (this.debug) {
         console.log("[CustomProvider] response:", resp);
@@ -138,6 +159,16 @@ async function sendMessage(message: Message): Promise<WsMessage> {
       apiKeys: apiKeys,
     }),
   );
+  const resp = sendWsMessage(req);
+  return resp;
+}
+
+async function authenticate(token: string): Promise<WsMessage> {
+  const req: WsMessage = {
+    type: "auth",
+    recipient: "hub",
+    payload: token,
+  };
   const resp = sendWsMessage(req);
   return resp;
 }

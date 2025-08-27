@@ -1,24 +1,14 @@
 import { useEffect } from "react";
-// import Cookies from 'js-cookie'
 import { Outlet } from "@tanstack/react-router";
 import { useAuth } from "@/stores/auth-store";
 import { cn } from "@/lib/utils";
-// import { SearchProvider } from '@/context/search-context'
 import { useMe } from "@/hooks/use-me";
-// import { SidebarProvider } from '@/components/ui/sidebar'
-// import { AppSidebar } from '@/components/layout/app-sidebar'
-// import SkipToMain from '@/components/skip-to-main'
-// import {
-//   IconBrandGithub,
-// } from "@tabler/icons-react";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export function AuthenticatedLayout({ children }: Props) {
-  // const defaultOpen = Cookies.get('sidebar_state') !== 'false'
-
   const { setUser } = useAuth();
   const { user, loading } = useMe();
 
@@ -37,10 +27,6 @@ export function AuthenticatedLayout({ children }: Props) {
   console.log("user", user);
 
   return (
-    // <SearchProvider>
-    //   <SidebarProvider defaultOpen={defaultOpen}>
-    //     <SkipToMain />
-    //     <AppSidebar />
     <>
       <div
         id="content"
@@ -57,7 +43,5 @@ export function AuthenticatedLayout({ children }: Props) {
         {children ? children : <Outlet />}
       </div>
     </>
-    //   </SidebarProvider>
-    // </SearchProvider>
   );
 }

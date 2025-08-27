@@ -2,7 +2,6 @@ import { HTMLAttributes, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,18 +13,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import { useAuth } from "@/stores/auth-store";
 import { useNavigate } from "@tanstack/react-router";
-
-// import { PasswordInput } from '@/components/password-input'
 
 type TokenFormProps = HTMLAttributes<HTMLFormElement>;
 
 const formSchema = z.object({
-  // email: z.email({
-  //   error: (iss) =>
-  //     iss.input === '' ? 'Please enter your email' : undefined,
-  // }),
   token: z.string().min(1, "Access token is required"),
 });
 
@@ -40,7 +32,6 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
     },
   });
 
-  // const { setAccessToken } = useAuth();
   const navigate = useNavigate();
 
   function onSubmit(data: z.infer<typeof formSchema>) {
@@ -48,7 +39,6 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
 
     console.log(data);
 
-    // setAccessToken(data.token);
     localStorage.setItem("access-token", data.token);
 
     setTimeout(() => {
@@ -65,19 +55,6 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
         className={cn("grid gap-3", className)}
         {...props}
       >
-        {/* <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder='guest@example.com' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <FormField
           control={form.control}
           name="token"

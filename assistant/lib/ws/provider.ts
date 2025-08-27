@@ -1,4 +1,5 @@
 // provider.ts
+"use client";
 
 import type {
   ThreadMessage as Message,

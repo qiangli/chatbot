@@ -68,7 +68,7 @@ class WSManager {
     this.cleanup();
 
     try {
-      this.webSocket = new WebSocket(this.hubUrl + "?auth=1");
+      this.webSocket = new WebSocket(this.hubUrl);
     } catch (e) {
       console.warn("websocket", e);
     }

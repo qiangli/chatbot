@@ -1,16 +1,16 @@
 // import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/stores/auth-store";
-import handleLogout from "@/utils/logout";
+// import handleLogout from "@/utils/logout";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   // DropdownMenuGroup,
-  DropdownMenuItem,
+  // DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
+  // DropdownMenuSeparator,
+  // DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -44,7 +44,7 @@ export function ProfileDropdown() {
             </div>
           )}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator /> */}
         {/* <DropdownMenuGroup>
           {user && (
             <DropdownMenuItem asChild>
@@ -55,17 +55,17 @@ export function ProfileDropdown() {
             </DropdownMenuItem>
           )} */}
         {/* <DropdownMenuSeparator /> */}
-        <DropdownMenuItem asChild>
-          {/* {user ? ( */}
+        {/* <DropdownMenuItem asChild>
+          {user ? (
           <a href="#" onClick={handleLogout}>
             Sign Out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </a>
-          {/* // ) : (
-            //   // <Link to="/signin">Sign In</Link>
-            //   <span>Sign</span>
-            // )} */}
-        </DropdownMenuItem>
+            ) : (
+              // <Link to="/signin">Sign In</Link>
+              <span>Sign</span>
+            )} 
+        </DropdownMenuItem> */}
         {/* </DropdownMenuGroup> */}
       </DropdownMenuContent>
     </DropdownMenu>

@@ -2,16 +2,16 @@ import {
   AttachmentAdapter,
   PendingAttachment,
   CompleteAttachment,
-} from "@assistant-ui/react";
+} from "@assistant-ui/react"
 
 // https://www.assistant-ui.com/docs/guides/Attachments
 export class PDFAdapter implements AttachmentAdapter {
-  public accept = "application/pdf";
+  public accept = "application/pdf"
 
   async add(state: { file: File }): Promise<PendingAttachment> {
-    const maxSize = 10 * 1024 * 1024; // 10MB limit
+    const maxSize = 10 * 1024 * 1024 // 10MB limit
     if (state.file.size > maxSize) {
-      throw new Error("PDF size exceeds 10MB limit");
+      throw new Error("PDF size exceeds 10MB limit")
     }
 
     return {
@@ -21,7 +21,7 @@ export class PDFAdapter implements AttachmentAdapter {
       contentType: state.file.type,
       file: state.file,
       status: { type: "requires-action", reason: "composer-send" },
-    };
+    }
   }
 
   async send(attachment: PendingAttachment): Promise<CompleteAttachment> {
@@ -29,7 +29,7 @@ export class PDFAdapter implements AttachmentAdapter {
     // const text = await this.extractTextFromPDF(attachment.file);
 
     // Option 2: Convert to base64 for API processing
-    const base64 = await this.fileToBase64(attachment.file);
+    const base64 = await this.fileToBase64(attachment.file)
 
     return {
       ...attachment,
@@ -40,7 +40,7 @@ export class PDFAdapter implements AttachmentAdapter {
           text: base64,
         },
       ],
-    };
+    }
   }
 
   public async remove(): Promise<void> {
@@ -48,13 +48,13 @@ export class PDFAdapter implements AttachmentAdapter {
   }
 
   private async fileToBase64(file: File): Promise<string> {
-    const arrayBuffer = await file.arrayBuffer();
-    const bytes = new Uint8Array(arrayBuffer);
-    let binary = "";
+    const arrayBuffer = await file.arrayBuffer()
+    const bytes = new Uint8Array(arrayBuffer)
+    let binary = ""
     bytes.forEach((byte) => {
-      binary += String.fromCharCode(byte);
-    });
-    return btoa(binary);
+      binary += String.fromCharCode(byte)
+    })
+    return btoa(binary)
   }
 
   // // Optional: Extract text from PDF using a library like pdf.js

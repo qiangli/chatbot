@@ -1,15 +1,12 @@
 // import Footer from "@/components/footer";
-import { Thread } from "@/components/assistant-ui/thread";
+import { Thread } from "@/components/assistant-ui/thread"
 
-import "./chat.css";
-
-function Chat() {
+export function Chat() {
   return (
     <>
-      <Thread />
-      {/* <Footer /> */}
+      <div>
+        <Thread />
+      </div>
     </>
-  );
+  )
 }
-
-export default Chat;

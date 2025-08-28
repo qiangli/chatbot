@@ -1,9 +1,9 @@
 // import { useNavigate, useRouter } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router"
+import { Button } from "@/components/ui/button"
 
 export default function NotFoundError() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // const { history } = useRouter();
   return (
     <div className="h-svh">
@@ -22,5 +22,5 @@ export default function NotFoundError() {
         </div>
       </div>
     </div>
-  );
+  )
 }

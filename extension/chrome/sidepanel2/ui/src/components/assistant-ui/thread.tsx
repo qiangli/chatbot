@@ -1,11 +1,11 @@
+import type { FC } from "react"
 import {
   ActionBarPrimitive,
   BranchPickerPrimitive,
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
-} from "@assistant-ui/react";
-import type { FC } from "react";
+} from "@assistant-ui/react"
 import {
   ArrowDownIcon,
   CheckIcon,
@@ -16,16 +16,14 @@ import {
   RefreshCwIcon,
   StopCircleIcon,
   AudioLinesIcon,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-
-import { Button } from "@/components/ui/button";
-
-import { MarkdownText } from "./markdown-text";
-import { TooltipIconButton } from "./tooltip-icon-button";
-import { ToolFallback } from "./tool-fallback";
-import { Composer } from "./compose";
-import { UserMessageAttachments } from "./attachment";
+} from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { UserMessageAttachments } from "./attachment"
+import { Composer } from "./compose"
+import { MarkdownText } from "./markdown-text"
+import { ToolFallback } from "./tool-fallback"
+import { TooltipIconButton } from "./tooltip-icon-button"
 
 export const Thread: FC = () => {
   return (
@@ -56,8 +54,8 @@ export const Thread: FC = () => {
         </div>
       </ThreadPrimitive.Viewport>
     </ThreadPrimitive.Root>
-  );
-};
+  )
+}
 
 const ThreadScrollToBottom: FC = () => {
   return (
@@ -70,8 +68,8 @@ const ThreadScrollToBottom: FC = () => {
         <ArrowDownIcon />
       </TooltipIconButton>
     </ThreadPrimitive.ScrollToBottom>
-  );
-};
+  )
+}
 
 const ThreadWelcome: FC = () => {
   return (
@@ -83,8 +81,8 @@ const ThreadWelcome: FC = () => {
         <ThreadWelcomeSuggestions />
       </div>
     </ThreadPrimitive.Empty>
-  );
-};
+  )
+}
 
 const ThreadWelcomeSuggestions: FC = () => {
   return (
@@ -110,32 +108,32 @@ const ThreadWelcomeSuggestions: FC = () => {
         </span>
       </ThreadPrimitive.Suggestion> */}
     </div>
-  );
-};
+  )
+}
 
 const UserMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="grid auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 [&:where(>*)]:col-start-2 w-full max-w-[var(--thread-max-width)] py-4">
+    <MessagePrimitive.Root className="grid w-full max-w-[var(--thread-max-width)] auto-rows-auto grid-cols-[minmax(72px,1fr)_auto] gap-y-2 py-4 [&:where(>*)]:col-start-2">
       <UserMessageAttachments />
       {/* <UserMessageScreenshots /> */}
 
       <UserActionBar />
 
-      <div className="bg-muted text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words rounded-3xl px-5 py-2.5 col-start-2 row-start-2">
+      <div className="bg-muted text-foreground col-start-2 row-start-2 max-w-[calc(var(--thread-max-width)*0.8)] rounded-3xl px-5 py-2.5 break-words">
         <MessagePrimitive.Content />
       </div>
 
       <BranchPicker className="col-span-full col-start-1 row-start-3 -mr-1 justify-end" />
     </MessagePrimitive.Root>
-  );
-};
+  )
+}
 
 const UserActionBar: FC = () => {
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
       autohide="not-last"
-      className="flex flex-col items-end col-start-1 row-start-2 mr-3 mt-2.5"
+      className="col-start-1 row-start-2 mt-2.5 mr-3 flex flex-col items-end"
     >
       <ActionBarPrimitive.Edit asChild>
         <TooltipIconButton tooltip="Edit">
@@ -143,8 +141,8 @@ const UserActionBar: FC = () => {
         </TooltipIconButton>
       </ActionBarPrimitive.Edit>
     </ActionBarPrimitive.Root>
-  );
-};
+  )
+}
 
 const EditComposer: FC = () => {
   return (
@@ -160,13 +158,13 @@ const EditComposer: FC = () => {
         </ComposerPrimitive.Send>
       </div>
     </ComposerPrimitive.Root>
-  );
-};
+  )
+}
 
 const AssistantMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="grid grid-cols-[auto_auto_1fr] grid-rows-[auto_1fr] relative w-full max-w-[var(--thread-max-width)] py-4">
-      <div className="text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words leading-7 col-span-2 col-start-2 row-start-1 my-1.5">
+    <MessagePrimitive.Root className="relative grid w-full max-w-[var(--thread-max-width)] grid-cols-[auto_auto_1fr] grid-rows-[auto_1fr] py-4">
+      <div className="text-foreground col-span-2 col-start-2 row-start-1 my-1.5 max-w-[calc(var(--thread-max-width)*0.8)] leading-7 break-words">
         <MessagePrimitive.Content
           components={{ Text: MarkdownText, tools: { Fallback: ToolFallback } }}
         />
@@ -174,10 +172,10 @@ const AssistantMessage: FC = () => {
 
       <AssistantActionBar />
 
-      <BranchPicker className="col-start-2 row-start-2 -ml-2 mr-2" />
+      <BranchPicker className="col-start-2 row-start-2 mr-2 -ml-2" />
     </MessagePrimitive.Root>
-  );
-};
+  )
+}
 
 // https://github.com/assistant-ui/assistant-ui/blob/main/apps/docs/components/assistant-ui/thread.tsx
 const AssistantActionBar: FC = () => {
@@ -186,7 +184,7 @@ const AssistantActionBar: FC = () => {
       hideWhenRunning
       autohide="not-last"
       autohideFloat="single-branch"
-      className="text-muted-foreground flex gap-1 col-start-3 row-start-2 -ml-1 data-[floating]:bg-background data-[floating]:absolute data-[floating]:rounded-md data-[floating]:border data-[floating]:p-1 data-[floating]:shadow-sm"
+      className="text-muted-foreground data-[floating]:bg-background col-start-3 row-start-2 -ml-1 flex gap-1 data-[floating]:absolute data-[floating]:rounded-md data-[floating]:border data-[floating]:p-1 data-[floating]:shadow-sm"
     >
       <MessagePrimitive.If speaking={false}>
         <ActionBarPrimitive.Speak asChild>
@@ -218,8 +216,8 @@ const AssistantActionBar: FC = () => {
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
     </ActionBarPrimitive.Root>
-  );
-};
+  )
+}
 
 const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
   className,
@@ -230,7 +228,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
       hideWhenSingleBranch
       className={cn(
         "text-muted-foreground inline-flex items-center text-xs",
-        className,
+        className
       )}
       {...rest}
     >
@@ -248,8 +246,8 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>
     </BranchPickerPrimitive.Root>
-  );
-};
+  )
+}
 
 // const CircleStopIcon = () => {
 //   return (

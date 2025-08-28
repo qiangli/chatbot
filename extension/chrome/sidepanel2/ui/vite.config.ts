@@ -1,10 +1,10 @@
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import path from "path"
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react-swc"
+import tailwindcss from "@tailwindcss/vite"
+import { tanstackRouter } from "@tanstack/router-plugin/vite"
 
-const outDir = "dist/";
+const outDir = "dist/"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -38,11 +38,11 @@ export default defineConfig({
         entryFileNames: "assets/bundle.js",
         assetFileNames: (assetInfo) => {
           if (assetInfo?.name?.endsWith(".css")) {
-            return "assets/bundle.css";
+            return "assets/bundle.css"
           }
-          return "assets/[name][extname]";
+          return "assets/[name][extname]"
         },
       },
     },
   },
-});
+})

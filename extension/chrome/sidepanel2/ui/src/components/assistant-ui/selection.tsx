@@ -1,37 +1,35 @@
-"use client";
+"use client"
 
-import type { FC } from "react";
+import type { FC } from "react"
+import { useComposerRuntime } from "@assistant-ui/react"
+import { useComposerContext } from "./composer"
+import { TooltipIconButton } from "./tooltip-icon-button"
 
-import { useComposerRuntime } from "@assistant-ui/react";
-
-import { TooltipIconButton } from "./tooltip-icon-button";
-import { useComposerContext } from "./composer";
-
-let counter = 1;
+let counter = 1
 
 export const ComposerSelections: FC = () => {
-  const { selectedText, setSelectedText } = useComposerContext();
-  const composerRuntime = useComposerRuntime();
+  const { selectedText, setSelectedText } = useComposerContext()
+  const composerRuntime = useComposerRuntime()
 
   if (!selectedText) {
-    return null;
+    return null
   }
 
-  const name = `selected${counter++}.txt`;
-  const file = new File([selectedText], name, { type: "text/plain" });
-  composerRuntime.addAttachment(file);
-  setSelectedText(null);
+  const name = `selected${counter++}.txt`
+  const file = new File([selectedText], name, { type: "text/plain" })
+  composerRuntime.addAttachment(file)
+  setSelectedText(null)
 
-  return <></>;
-};
+  return <></>
+}
 
 export const ComposerAddSelection: FC = () => {
-  const { copySelectedText } = useComposerContext();
+  const { copySelectedText } = useComposerContext()
 
   const add = (event: React.MouseEvent<HTMLButtonElement>) => {
-    copySelectedText();
-    event.preventDefault();
-  };
+    copySelectedText()
+    event.preventDefault()
+  }
 
   return (
     <TooltipIconButton
@@ -42,8 +40,8 @@ export const ComposerAddSelection: FC = () => {
     >
       <IconSelection />
     </TooltipIconButton>
-  );
-};
+  )
+}
 
 const IconSelection = () => {
   return (
@@ -58,5 +56,5 @@ const IconSelection = () => {
       <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
       <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
     </svg>
-  );
-};
+  )
+}

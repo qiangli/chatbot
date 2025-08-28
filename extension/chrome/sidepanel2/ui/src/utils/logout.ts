@@ -1,9 +1,9 @@
-import { useAuthStore } from "@/stores/auth-store";
+import { useAuthStore } from "@/stores/auth-store"
 
 // import { BASE_URL } from "@/types/constants";
 
 export default function handleLogout() {
-  useAuthStore.getState().auth.reset();
+  useAuthStore.getState().auth.reset()
 
   // fetch(`${BASE_URL}/cloud/logout`, {
   //   method: "GET",

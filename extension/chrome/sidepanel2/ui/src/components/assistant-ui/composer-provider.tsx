@@ -1,8 +1,7 @@
-import { useState, FC, ReactNode } from "react";
-import html2canvas from "html2canvas-pro";
-import { startVoiceRecording, stopVoiceRecording } from "@/service/voice";
-
-import { ComposerContext } from "./composer";
+import { useState, FC, ReactNode } from "react"
+import { startVoiceRecording, stopVoiceRecording } from "@/service/voice"
+import html2canvas from "html2canvas-pro"
+import { ComposerContext } from "./composer"
 
 // // Define types for context state
 // interface ComposerContextType {
@@ -39,66 +38,66 @@ import { ComposerContext } from "./composer";
 
 // Provider component
 export const ComposerProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [screenshotData, setScreenshotData] = useState<string | null>(null);
-  const [selectedText, setSelectedText] = useState<string | null>(null);
-  const [voiceData, setVoiceData] = useState<string | null>(null);
+  const [screenshotData, setScreenshotData] = useState<string | null>(null)
+  const [selectedText, setSelectedText] = useState<string | null>(null)
+  const [voiceData, setVoiceData] = useState<string | null>(null)
 
   const takeScreenshot = async () => {
     try {
-      const canvas = await html2canvas(document.body);
-      const dataUrl = canvas.toDataURL("image/png");
-      setScreenshotData(dataUrl);
+      const canvas = await html2canvas(document.body)
+      const dataUrl = canvas.toDataURL("image/png")
+      setScreenshotData(dataUrl)
       // console.log("screenshot:", dataUrl);
     } catch (error) {
-      console.error("Failed to capture screenshot:", error);
+      console.error("Failed to capture screenshot:", error)
     }
-  };
+  }
 
   const getScreenshotDetails = () => {
-    if (!screenshotData) return null;
+    if (!screenshotData) return null
     return {
       dataUrl: screenshotData,
       metaData: {
         created: new Date().toISOString(),
       },
-    };
-  };
+    }
+  }
 
   const copySelectedText = () => {
-    let selected: string | null = "";
+    let selected: string | null = ""
     if (window.getSelection) {
-      const selection = window.getSelection();
-      selected = selection && selection.toString();
+      const selection = window.getSelection()
+      selected = selection && selection.toString()
     }
     if (!selected) {
-      selected = document.body.innerText || document.body.textContent || "";
+      selected = document.body.innerText || document.body.textContent || ""
     }
-    console.log("selected text:", selected);
-    setSelectedText(selected);
-  };
+    console.log("selected text:", selected)
+    setSelectedText(selected)
+  }
 
   const startVoice = (toggle: (on: boolean) => void) => {
-    const lang = "en-US";
+    const lang = "en-US"
     startVoiceRecording(
       { language: lang },
       (on: boolean) => {
         if (toggle) {
-          toggle(on);
+          toggle(on)
         }
       },
       (text: string) => {
         if (voiceData) {
-          setVoiceData(`${voiceData} ${text}`);
+          setVoiceData(`${voiceData} ${text}`)
         } else {
-          setVoiceData(text);
+          setVoiceData(text)
         }
-      },
-    );
-  };
+      }
+    )
+  }
 
   const stopVoice = () => {
-    stopVoiceRecording();
-  };
+    stopVoiceRecording()
+  }
 
   return (
     <ComposerContext.Provider
@@ -119,5 +118,5 @@ export const ComposerProvider: FC<{ children: ReactNode }> = ({ children }) => {
     >
       {children}
     </ComposerContext.Provider>
-  );
-};
+  )
+}

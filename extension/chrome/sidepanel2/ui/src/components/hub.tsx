@@ -1,20 +1,20 @@
-import { useEffect } from "react";
-import wsManager from "@/lib/ws/manager";
+import { useEffect } from "react"
+import wsManager from "@/lib/ws/manager"
 
 export type HubConfig = {
-  url: string;
-  sender: string;
-};
+  url: string
+  sender: string
+}
 
 const Hub: React.FC<HubConfig> = ({ url, sender }) => {
   useEffect(() => {
-    wsManager.startHub(url, sender);
+    wsManager.startHub(url, sender)
     return () => {
-      wsManager.stopHub();
-    };
-  }, [url, sender]);
+      wsManager.stopHub()
+    }
+  }, [url, sender])
 
-  return null;
-};
+  return null
+}
 
-export default Hub;
+export default Hub

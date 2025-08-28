@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router"
+import { IconArrowBackUp as IconBack } from "@tabler/icons-react"
 import {
   Card,
   CardContent,
@@ -5,12 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { ExternalLink } from "@/components/ui/external-link";
-import AuthLayout from "../auth-layout";
-import { TokenForm } from "./components/token-form";
-import { Link } from "@tanstack/react-router";
-import { IconArrowBackUp as IconBack } from "@tabler/icons-react";
+} from "@/components/ui/card"
+import { ExternalLink } from "@/components/ui/external-link"
+import AuthLayout from "../auth-layout"
+import { TokenForm } from "./components/token-form"
 
 export default function Settings() {
   return (
@@ -43,5 +43,5 @@ export default function Settings() {
         <CardFooter></CardFooter>
       </Card>
     </AuthLayout>
-  );
+  )
 }

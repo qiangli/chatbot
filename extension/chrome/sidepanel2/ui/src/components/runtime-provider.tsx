@@ -1,26 +1,24 @@
-"use client";
+"use client"
 
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { AssistantRuntimeProvider, useLocalRuntime } from "@assistant-ui/react";
+import type { ReactNode } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { ImageAdapter, PDFAdapter, TextAdapter } from "@/adapters"
+import { BASE_URL } from "@/types/constants"
+import { AssistantRuntimeProvider, useLocalRuntime } from "@assistant-ui/react"
 import {
   CompositeAttachmentAdapter,
   WebSpeechSynthesisAdapter,
-} from "@assistant-ui/react";
-
-import CustomModelAdapter from "@/lib/ws/provider";
-import Hub from "@/components/hub";
-import { ImageAdapter, PDFAdapter, TextAdapter } from "@/adapters";
-
-import { BASE_URL } from "@/types/constants";
+} from "@assistant-ui/react"
+import CustomModelAdapter from "@/lib/ws/provider"
+import Hub from "@/components/hub"
 
 // https://www.assistant-ui.com/docs/runtimes/custom/local
 // pnpm dlx shadcn@latest add "https://r.assistant-ui.com/attachment"
 export function CustomRuntimeProvider({
   children,
 }: Readonly<{
-  children: ReactNode;
+  children: ReactNode
 }>) {
   const runtime = useLocalRuntime(new CustomModelAdapter({}), {
     adapters: {
@@ -34,39 +32,39 @@ export function CustomRuntimeProvider({
       ]),
       speech: new WebSpeechSynthesisAdapter(),
     },
-  });
+  })
   const [runtimeConfig, setRuntimeConfig] = useState({
     senderId: "",
     hubUrl: "",
-  });
+  })
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Fetch configuration from a runtime configuration API
     const fetchConfig = async () => {
       try {
-        const { data } = await axios.get(BASE_URL + "/config/sidepanel");
+        const { data } = await axios.get(BASE_URL + "/config/sidepanel")
         setRuntimeConfig({
           senderId: data.senderId ?? "",
           hubUrl: data.hubUrl ?? "",
-        });
+        })
       } catch (error) {
-        console.error("Could not fetch runtime configuration", error);
+        console.error("Could not fetch runtime configuration", error)
         setRuntimeConfig({
           senderId: "sidepanel-unknown",
           hubUrl: "",
-        });
+        })
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchConfig();
-  }, []);
+    fetchConfig()
+  }, [])
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return <span>Loading...</span>
   }
 
   return (
@@ -79,5 +77,5 @@ export function CustomRuntimeProvider({
         {children}
       </AssistantRuntimeProvider>
     </>
-  );
+  )
 }

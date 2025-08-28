@@ -1,12 +1,12 @@
-import React from "react";
+import React from "react"
+// import { ThemeToggle } from "@/components/theme-toggle"
 // import { cn } from "@/lib/utils";
 // import { Separator } from "@/components/ui/separator";
-import { ProfileDropdown } from "./profile-dropdown";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ProfileDropdown } from "./profile-dropdown"
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
-  fixed?: boolean;
-  ref?: React.Ref<HTMLElement>;
+  fixed?: boolean
+  ref?: React.Ref<HTMLElement>
 }
 
 export const Header = ({
@@ -42,13 +42,10 @@ export const Header = ({
     //   <Separator orientation="vertical" className="h-6" />
     //   {children}
     // </header>
-    <header
-      className="flex h-16 shrink-0 items-center gap-2 border-b px-4 justify-between"
-      {...props}
-    >
+    <header className="fixed" {...props}>
       <div className="flex items-center gap-2"></div>
       <div className="flex items-center gap-2">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         {/* <button onClick={navigateHome} className="btn btn-primary">
           <IconHome size={18} stroke={1.5} />
         </button> */}
@@ -57,18 +54,18 @@ export const Header = ({
       {/* <Separator orientation="vertical" className="h-6" />
        {children} */}
     </header>
-  );
-};
+  )
+}
 
-Header.displayName = "Header";
+Header.displayName = "Header"
 
-export const TopHeader = () => {
-  return (
-    <Header>
-      {/* <div>
-        <ThemeToggle />
-        <ProfileDropdown />
-      </div> */}
-    </Header>
-  );
-};
+// export const TopHeader = () => {
+//   return (
+//     <Header>
+//       {/* <div>
+//         <ThemeToggle />
+//         <ProfileDropdown />
+//       </div> */}
+//     </Header>
+//   )
+// }

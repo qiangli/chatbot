@@ -1,19 +1,17 @@
-"use client";
+"use client"
 
-import "@assistant-ui/react-markdown/styles/dot.css";
-
+import { FC, memo, useState } from "react"
 import {
   CodeHeaderProps,
   MarkdownTextPrimitive,
   unstable_memoizeMarkdownComponents as memoizeMarkdownComponents,
   useIsMarkdownCodeBlock,
-} from "@assistant-ui/react-markdown";
-import remarkGfm from "remark-gfm";
-import { FC, memo, useState } from "react";
-import { CheckIcon, CopyIcon } from "lucide-react";
-
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
-import { cn } from "@/lib/utils";
+} from "@assistant-ui/react-markdown"
+import "@assistant-ui/react-markdown/styles/dot.css"
+import { CheckIcon, CopyIcon } from "lucide-react"
+import remarkGfm from "remark-gfm"
+import { cn } from "@/lib/utils"
+import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button"
 
 const MarkdownTextImpl = () => {
   return (
@@ -22,17 +20,17 @@ const MarkdownTextImpl = () => {
       className="aui-md"
       components={defaultComponents}
     />
-  );
-};
+  )
+}
 
-export const MarkdownText = memo(MarkdownTextImpl);
+export const MarkdownText = memo(MarkdownTextImpl)
 
 const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
-  const { isCopied, copyToClipboard } = useCopyToClipboard();
+  const { isCopied, copyToClipboard } = useCopyToClipboard()
   const onCopy = () => {
-    if (!code || isCopied) return;
-    copyToClipboard(code);
-  };
+    if (!code || isCopied) return
+    copyToClipboard(code)
+  }
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-t-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white">
@@ -42,34 +40,34 @@ const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
         {isCopied && <CheckIcon />}
       </TooltipIconButton>
     </div>
-  );
-};
+  )
+}
 
 const useCopyToClipboard = ({
   copiedDuration = 3000,
 }: {
-  copiedDuration?: number;
+  copiedDuration?: number
 } = {}) => {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false)
 
   const copyToClipboard = (value: string) => {
-    if (!value) return;
+    if (!value) return
 
     navigator.clipboard.writeText(value).then(() => {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), copiedDuration);
-    });
-  };
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), copiedDuration)
+    })
+  }
 
-  return { isCopied, copyToClipboard };
-};
+  return { isCopied, copyToClipboard }
+}
 
 const defaultComponents = memoizeMarkdownComponents({
   h1: ({ className, ...props }) => (
     <h1
       className={cn(
         "mb-8 scroll-m-20 text-4xl font-extrabold tracking-tight last:mb-0",
-        className,
+        className
       )}
       {...props}
     />
@@ -77,8 +75,8 @@ const defaultComponents = memoizeMarkdownComponents({
   h2: ({ className, ...props }) => (
     <h2
       className={cn(
-        "mb-4 mt-8 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 last:mb-0",
-        className,
+        "mt-8 mb-4 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 last:mb-0",
+        className
       )}
       {...props}
     />
@@ -86,8 +84,8 @@ const defaultComponents = memoizeMarkdownComponents({
   h3: ({ className, ...props }) => (
     <h3
       className={cn(
-        "mb-4 mt-6 scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 last:mb-0",
-        className,
+        "mt-6 mb-4 scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 last:mb-0",
+        className
       )}
       {...props}
     />
@@ -95,8 +93,8 @@ const defaultComponents = memoizeMarkdownComponents({
   h4: ({ className, ...props }) => (
     <h4
       className={cn(
-        "mb-4 mt-6 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0 last:mb-0",
-        className,
+        "mt-6 mb-4 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0 last:mb-0",
+        className
       )}
       {...props}
     />
@@ -105,7 +103,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <h5
       className={cn(
         "my-4 text-lg font-semibold first:mt-0 last:mb-0",
-        className,
+        className
       )}
       {...props}
     />
@@ -118,7 +116,7 @@ const defaultComponents = memoizeMarkdownComponents({
   ),
   p: ({ className, ...props }) => (
     <p
-      className={cn("mb-5 mt-5 leading-7 first:mt-0 last:mb-0", className)}
+      className={cn("mt-5 mb-5 leading-7 first:mt-0 last:mb-0", className)}
       {...props}
     />
   ),
@@ -126,7 +124,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <a
       className={cn(
         "text-primary font-medium underline underline-offset-4",
-        className,
+        className
       )}
       {...props}
     />
@@ -156,7 +154,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <table
       className={cn(
         "my-5 w-full border-separate border-spacing-0 overflow-y-auto",
-        className,
+        className
       )}
       {...props}
     />
@@ -165,7 +163,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <th
       className={cn(
         "bg-muted px-4 py-2 text-left font-bold first:rounded-tl-lg last:rounded-tr-lg [&[align=center]]:text-center [&[align=right]]:text-right",
-        className,
+        className
       )}
       {...props}
     />
@@ -174,7 +172,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <td
       className={cn(
         "border-b border-l px-4 py-2 text-left last:border-r [&[align=center]]:text-center [&[align=right]]:text-right",
-        className,
+        className
       )}
       {...props}
     />
@@ -183,7 +181,7 @@ const defaultComponents = memoizeMarkdownComponents({
     <tr
       className={cn(
         "m-0 border-b p-0 first:border-t [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg",
-        className,
+        className
       )}
       {...props}
     />
@@ -198,22 +196,22 @@ const defaultComponents = memoizeMarkdownComponents({
     <pre
       className={cn(
         "overflow-x-auto rounded-b-lg bg-black p-4 text-white",
-        className,
+        className
       )}
       {...props}
     />
   ),
   code: function Code({ className, ...props }) {
-    const isCodeBlock = useIsMarkdownCodeBlock();
+    const isCodeBlock = useIsMarkdownCodeBlock()
     return (
       <code
         className={cn(
           !isCodeBlock && "bg-muted rounded border font-semibold",
-          className,
+          className
         )}
         {...props}
       />
-    );
+    )
   },
   CodeHeader,
-});
+})

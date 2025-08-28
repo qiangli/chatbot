@@ -1,70 +1,70 @@
-"use client";
+"use client"
 
-import { PropsWithChildren, useEffect, useState, type FC } from "react";
-import { CircleXIcon, FileIcon, PaperclipIcon } from "lucide-react";
+import { PropsWithChildren, useEffect, useState, type FC } from "react"
+import { DialogContent as DialogPrimitiveContent } from "@radix-ui/react-dialog"
 import {
   AttachmentPrimitive,
   ComposerPrimitive,
   MessagePrimitive,
   useAttachment,
-} from "@assistant-ui/react";
-import { useShallow } from "zustand/shallow";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@assistant-ui/react"
+import { CircleXIcon, FileIcon, PaperclipIcon } from "lucide-react"
+import { useShallow } from "zustand/shallow"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import {
   Dialog,
   DialogTitle,
   DialogTrigger,
   DialogOverlay,
   DialogPortal,
-} from "@/components/ui/dialog";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
-import { DialogContent as DialogPrimitiveContent } from "@radix-ui/react-dialog";
+} from "@/components/ui/dialog"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button"
 
 const useFileSrc = (file: File | undefined) => {
-  const [src, setSrc] = useState<string | undefined>(undefined);
+  const [src, setSrc] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (!file) {
-      setSrc(undefined);
-      return;
+      setSrc(undefined)
+      return
     }
 
-    const objectUrl = URL.createObjectURL(file);
-    setSrc(objectUrl);
+    const objectUrl = URL.createObjectURL(file)
+    setSrc(objectUrl)
 
     return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [file]);
+      URL.revokeObjectURL(objectUrl)
+    }
+  }, [file])
 
-  return src;
-};
+  return src
+}
 
 const useAttachmentSrc = () => {
   const { file, src } = useAttachment(
     useShallow((a): { file?: File; src?: string } => {
-      if (a.type !== "image") return {};
-      if (a.file) return { file: a.file };
-      const src = a.content?.filter((c) => c.type === "image")[0]?.image;
-      if (!src) return {};
-      return { src };
-    }),
-  );
+      if (a.type !== "image") return {}
+      if (a.file) return { file: a.file }
+      const src = a.content?.filter((c) => c.type === "image")[0]?.image
+      if (!src) return {}
+      return { src }
+    })
+  )
 
-  return useFileSrc(file) ?? src;
-};
+  return useFileSrc(file) ?? src
+}
 
 type AttachmentPreviewProps = {
-  src: string;
-};
+  src: string
+}
 
 const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <img
@@ -80,13 +80,13 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
       onLoad={() => setIsLoaded(true)}
       alt="Preview"
     />
-  );
-};
+  )
+}
 
 const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
-  const src = useAttachmentSrc();
+  const src = useAttachmentSrc()
 
-  if (!src) return children;
+  if (!src) return children
 
   return (
     <Dialog>
@@ -103,12 +103,12 @@ const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
         <AttachmentPreview src={src} />
       </AttachmentDialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
 const AttachmentThumb: FC = () => {
-  const isImage = useAttachment((a) => a.type === "image");
-  const src = useAttachmentSrc();
+  const isImage = useAttachment((a) => a.type === "image")
+  const src = useAttachmentSrc()
   return (
     <Avatar className="bg-muted flex size-10 items-center justify-center rounded border text-sm">
       <AvatarFallback delayMs={isImage ? 200 : 0}>
@@ -116,26 +116,26 @@ const AttachmentThumb: FC = () => {
       </AvatarFallback>
       <AvatarImage src={src} />
     </Avatar>
-  );
-};
+  )
+}
 
 const AttachmentUI: FC = () => {
-  const canRemove = useAttachment((a) => a.source !== "message");
+  const canRemove = useAttachment((a) => a.source !== "message")
   const typeLabel = useAttachment((a) => {
-    const type = a.type;
+    const type = a.type
     switch (type) {
       case "image":
-        return "Image";
+        return "Image"
       case "document":
-        return "Document";
+        return "Document"
       case "file":
-        return "File";
+        return "File"
       default: {
-        const _exhaustiveCheck: never = type;
-        throw new Error(`Unknown attachment type: ${_exhaustiveCheck}`);
+        const _exhaustiveCheck: never = type
+        throw new Error(`Unknown attachment type: ${_exhaustiveCheck}`)
       }
     }
-  });
+  })
   return (
     <Tooltip>
       <AttachmentPrimitive.Root className="relative mt-3">
@@ -144,7 +144,7 @@ const AttachmentUI: FC = () => {
             <div className="flex h-12 w-40 items-center justify-center gap-2 rounded-lg border p-1">
               <AttachmentThumb />
               <div className="flex-grow basis-0">
-                <p className="text-muted-foreground line-clamp-1 text-ellipsis break-all text-xs font-bold">
+                <p className="text-muted-foreground line-clamp-1 text-xs font-bold break-all text-ellipsis">
                   <AttachmentPrimitive.Name />
                 </p>
                 <p className="text-muted-foreground text-xs">{typeLabel}</p>
@@ -158,30 +158,30 @@ const AttachmentUI: FC = () => {
         <AttachmentPrimitive.Name />
       </TooltipContent>
     </Tooltip>
-  );
-};
+  )
+}
 
 const AttachmentRemove: FC = () => {
   return (
     <AttachmentPrimitive.Remove asChild>
       <TooltipIconButton
         tooltip="Remove file"
-        className="text-muted-foreground [&>svg]:bg-background absolute -right-3 -top-3 size-6 [&>svg]:size-4 [&>svg]:rounded-full"
+        className="text-muted-foreground [&>svg]:bg-background absolute -top-3 -right-3 size-6 [&>svg]:size-4 [&>svg]:rounded-full"
         side="top"
       >
         <CircleXIcon />
       </TooltipIconButton>
     </AttachmentPrimitive.Remove>
-  );
-};
+  )
+}
 
 export const UserMessageAttachments: FC = () => {
   return (
-    <div className="flex w-full flex-row gap-3 col-span-full col-start-1 row-start-1 justify-end">
+    <div className="col-span-full col-start-1 row-start-1 flex w-full flex-row justify-end gap-3">
       <MessagePrimitive.Attachments components={{ Attachment: AttachmentUI }} />
     </div>
-  );
-};
+  )
+}
 
 export const ComposerAttachments: FC = () => {
   return (
@@ -190,8 +190,8 @@ export const ComposerAttachments: FC = () => {
         components={{ Attachment: AttachmentUI }}
       />
     </div>
-  );
-};
+  )
+}
 
 export const ComposerAddAttachment: FC = () => {
   return (
@@ -204,8 +204,8 @@ export const ComposerAddAttachment: FC = () => {
         <PaperclipIcon />
       </TooltipIconButton>
     </ComposerPrimitive.AddAttachment>
-  );
-};
+  )
+}
 
 const AttachmentDialogContent: FC<PropsWithChildren> = ({ children }) => (
   <DialogPortal>
@@ -214,4 +214,4 @@ const AttachmentDialogContent: FC<PropsWithChildren> = ({ children }) => (
       {children}
     </DialogPrimitiveContent>
   </DialogPortal>
-);
+)

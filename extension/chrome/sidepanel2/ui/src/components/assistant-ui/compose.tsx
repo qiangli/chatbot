@@ -1,16 +1,13 @@
-import type { FC } from "react";
-
-import { ComposerPrimitive, ThreadPrimitive } from "@assistant-ui/react";
-import { SendHorizontalIcon, StopCircleIcon } from "lucide-react";
-
-import { TooltipIconButton } from "./tooltip-icon-button";
-import { ComposerAttachments, ComposerAddAttachment } from "./attachment";
-import { ComposerProvider } from "./composer-provider";
-
+import type { FC } from "react"
+import { ComposerPrimitive, ThreadPrimitive } from "@assistant-ui/react"
+import { SendHorizontalIcon, StopCircleIcon } from "lucide-react"
+import { ComposerAttachments, ComposerAddAttachment } from "./attachment"
+import { ComposerProvider } from "./composer-provider"
+import { TooltipIconButton } from "./tooltip-icon-button"
 // import { ComposerScreenshots, ComposerAddScreenshot } from "./screenshot";
 // import { ComposerSelections, ComposerAddSelection } from "./selection";
 
-import { ComposerVoices, ComposerAddVoice } from "./voice-input";
+import { ComposerVoices, ComposerAddVoice } from "./voice-input"
 
 export const Composer: FC = () => {
   return (
@@ -36,8 +33,8 @@ export const Composer: FC = () => {
         <ComposerAction />
       </ComposerPrimitive.Root>
     </ComposerProvider>
-  );
-};
+  )
+}
 
 const ComposerAction: FC = () => {
   return (
@@ -65,5 +62,5 @@ const ComposerAction: FC = () => {
         </ComposerPrimitive.Cancel>
       </ThreadPrimitive.If>
     </>
-  );
-};
+  )
+}

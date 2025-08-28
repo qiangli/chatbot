@@ -15,7 +15,7 @@ import { IconArrowBackUp as IconBack } from "@tabler/icons-react";
 export default function Settings() {
   return (
     <AuthLayout>
-      <Card className="gap-4">
+      <Card>
         <CardHeader>
           <CardTitle className="text-lg tracking-tight">
             <span className="flex flex-col space-y-2 text-left">

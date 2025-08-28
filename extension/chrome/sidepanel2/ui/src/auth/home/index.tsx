@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <TopHeader />
-      <Main fixed>{user ? <Chat /> : <Welcome />}</Main>
+      <Main>{user ? <Chat /> : <Welcome />}</Main>
     </>
   );
 }

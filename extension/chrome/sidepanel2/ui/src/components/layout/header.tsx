@@ -64,7 +64,7 @@ Header.displayName = "Header";
 
 export const TopHeader = () => {
   return (
-    <Header fixed>
+    <Header>
       {/* <div>
         <ThemeToggle />
         <ProfileDropdown />

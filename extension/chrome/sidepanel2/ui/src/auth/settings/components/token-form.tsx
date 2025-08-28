@@ -40,9 +40,6 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
   function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    // console.log(data);
-
-    // localStorage.setItem("access-token", data.token);
     setAccessToken(data.token);
 
     // setTimeout(() => {
@@ -66,7 +63,11 @@ export function TokenForm({ className, ...props }: TokenFormProps) {
             <FormItem>
               <FormLabel></FormLabel>
               <FormControl>
-                <Input placeholder="Your access token" {...field} />
+                <Input
+                  placeholder="Your access token"
+                  autoComplete="off"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

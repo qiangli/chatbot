@@ -65,9 +65,8 @@ export function CustomRuntimeProvider({
     fetchConfig();
   }, []);
 
-
   if (isLoading) {
-    return <span>Loading...</span>
+    return <span>Loading...</span>;
   }
 
   return (

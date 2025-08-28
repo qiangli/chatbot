@@ -18,7 +18,7 @@ export default function Welcome() {
           </CardHeader>
           <CardContent className="pl-2">
             <div>
-              <Link to={"/access-token"}>
+              <Link to={"/settings"}>
                 <span>Signin with access token</span>
               </Link>
             </div>

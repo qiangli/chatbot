@@ -1,29 +1,7 @@
-// import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
-// import App from "./App.tsx";
-// import "./index.css";
-
 import { CustomRuntimeProvider } from "@/components/runtime-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-
-// createRoot(document.getElementById("root")!).render(
-//   <StrictMode>
-//     <CustomRuntimeProvider>
-//       <ThemeProvider
-//         attribute="class"
-//         defaultTheme="dark"
-//         enableSystem
-//         disableTransitionOnChange
-//       >
-//         <App />
-//       </ThemeProvider>
-//     </CustomRuntimeProvider>
-//   </StrictMode>,
-// );
-
 import { StrictMode } from "react";
-// import ReactDOM from "react-dom/client";
 import { AxiosError } from "axios";
 import {
   QueryCache,
@@ -34,8 +12,6 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/auth-store";
 import { handleServerError } from "@/utils/handle-server-error";
-// import { FontProvider } from './context/font-context'
-// import { ThemeProvider } from './context/theme-context'
 import "./index.css";
 
 // Generated Routes
@@ -78,7 +54,7 @@ const queryClient = new QueryClient({
           useAuthStore.getState().auth.reset();
           const redirect = `${router.history.location.href}`;
           // router.navigate({ to: "/signin", search: { redirect } })
-          router.navigate({ to: "/access-token", search: { redirect } });
+          router.navigate({ to: "/settings", search: { redirect } });
         }
         if (error.response?.status === 500) {
           toast.error("Internal Server Error!");
@@ -109,29 +85,6 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-
-// // Render the app
-// const rootElement = document.getElementById("root")!;
-// if (!rootElement.innerHTML) {
-//   const root = ReactDOM.createRoot(rootElement);
-//   root.render(
-//     <StrictMode>
-//       <QueryClientProvider client={queryClient}>
-//         <CustomRuntimeProvider>
-//           <ThemeProvider
-//             defaultTheme="dark"
-//             storageKey="theme"
-//             disableTransitionOnChange
-//           >
-//             {/* <FontProvider> */}
-//             <RouterProvider router={router} />
-//             {/* </FontProvider> */}
-//           </ThemeProvider>
-//         </CustomRuntimeProvider>
-//       </QueryClientProvider>
-//     </StrictMode>,
-//   );
-// }
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

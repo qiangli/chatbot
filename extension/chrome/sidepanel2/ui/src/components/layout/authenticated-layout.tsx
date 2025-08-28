@@ -29,7 +29,7 @@ export function AuthenticatedLayout({ children }: Props) {
   console.log("user", user);
 
   if (!user) {
-    navigate({ to: "/access-token" });
+    navigate({ to: "/settings" });
     return null;
   }
 

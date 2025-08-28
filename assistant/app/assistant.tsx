@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ThemeToggle } from "@/components/ui/theme-button";
 import { IconHome } from "@tabler/icons-react";
+import { ProfileDropdown } from "@/components/profile-dropdown";
 
 // https://github.com/Yonom/assistant-ui
 // https://www.assistant-ui.com/docs/getting-started
@@ -52,6 +53,7 @@ export const Assistant = () => {
             <button onClick={navigateHome} className="btn btn-primary">
               <IconHome size={18} stroke={1.5} />
             </button>
+            <ProfileDropdown />
           </div>
         </header>
         <Thread />

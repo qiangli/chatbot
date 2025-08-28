@@ -66,7 +66,7 @@ export function CustomRuntimeProvider({
   }, []);
 
   if (isLoading) {
-    return <span>Loading...</span>
+    return null;
   }
 
   return (

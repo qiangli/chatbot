@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+// import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/stores/auth-store";
 import handleLogout from "@/utils/logout";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
+  // DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -45,27 +45,28 @@ export function ProfileDropdown() {
           )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        {/* <DropdownMenuGroup>
           {user && (
             <DropdownMenuItem asChild>
-              <Link to="/settings">
-                Settings
+              <Link to="/settings/profile">
+                Profile
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </Link>
             </DropdownMenuItem>
-          )}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            {user ? (
-              <a href="#" onClick={handleLogout}>
-                Sign Out
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-              </a>
-            ) : (
-              <Link to="/signin">Sign In</Link>
-            )}
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+          )} */}
+        {/* <DropdownMenuSeparator /> */}
+        <DropdownMenuItem asChild>
+          {/* {user ? ( */}
+          <a href="#" onClick={handleLogout}>
+            Sign Out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </a>
+          {/* // ) : (
+            //   // <Link to="/signin">Sign In</Link>
+            //   <span>Sign</span>
+            // )} */}
+        </DropdownMenuItem>
+        {/* </DropdownMenuGroup> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -13,9 +13,9 @@ switch (target) {
   case "chrome-toolbar":
     outDir = "../extension/chrome/toolbar/dist";
     break;
-  case "chrome-sidepanel":
-    outDir = "../extension/chrome/sidepanel/dist";
-    break;
+  // case "chrome-sidepanel":
+  //   outDir = "../extension/chrome/sidepanel/dist";
+  //   break;
   case "electron-tray":
     outDir = "../electron/hub/dist";
     break;

@@ -12,11 +12,10 @@ update:
 dev:
     pnpm dev
 
-build:
-    NEXT_PUBLIC_SENDER_ID="${CHATBOT_ID:-web}" \
-        BUILD_CHAT_DIST_DIR=${BUILD_CHAT_DIST_DIR} \
-        NEXT_PUBLIC_HUB_URL="${NEXT_PUBLIC_HUB_URL}" \
-        PAGES_BASE_PATH=/assistant CHATBOT_TARGET=web pnpm build
+build: build-web
+
+build-web:
+    PAGES_BASE_PATH=/chat CHATBOT_TARGET=web pnpm build
 
 # Build vscode sidebar
 build-sidebar:
@@ -34,6 +33,9 @@ build-toolbar:
 # Build electron tray app
 build-tray:
     PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray NEXT_PUBLIC_SENDER_ID=tray pnpm build
+
+package:
+    pnpm package
 
 tidy:
     pnpm format

@@ -11,12 +11,12 @@ import { ComposerScreenshots, ComposerAddScreenshot } from "./screenshot";
 import { ComposerSelections, ComposerAddSelection } from "./selection";
 
 import { ComposerVoices, ComposerAddVoice } from "./voice-input";
-const senderId = process.env.NEXT_PUBLIC_SENDER_ID;
+const target = process.env.CHATBOT_TARGET;
 
 export const Composer: FC = () => {
   return (
     <>
-      {senderId === "tray" || senderId === "web" ? (
+      {target === "tray" || target === "web" ? (
         <ComposerProvider>
           <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
             <ComposerAttachments />

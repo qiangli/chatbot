@@ -33,8 +33,6 @@ export function CustomRuntimeProvider({
       speech: new WebSpeechSynthesisAdapter(),
     },
   });
-  // const senderId = process.env.NEXT_PUBLIC_SENDER_ID || "unknown-sender";
-  // const hubUrl = process.env.NEXT_PUBLIC_HUB_URL || "ws://localhost:58080/hub";
   const [runtimeConfig, setRuntimeConfig] = useState({
     senderId: "",
     hubUrl: "",

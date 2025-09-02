@@ -5,7 +5,7 @@ const target = process.env.CHATBOT_TARGET;
 
 switch (target) {
   case "web":
-    outDir = process.env.BUILD_CHAT_DIST_DIR ?? "dist/";
+    outDir = "../../web/dist/chatbot/";
     break;
   case "vscode-sidebar":
     outDir = "../extension/vscode/sidebar/dist/";

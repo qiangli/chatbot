@@ -24,7 +24,7 @@ const HEART_RATE = 10 * 1000;
 const INITIAL_BACKOFF = 3000; // start at 3s
 const MAX_BACKOFF = 60 * 1000; // max 1 minute
 
-const RESPONSE_TIMEOUT = 20000; // 20 seconds
+const RESPONSE_TIMEOUT = 300000; // 300 seconds
 
 class WSManager {
   private webSocket: WebSocket | null = null;

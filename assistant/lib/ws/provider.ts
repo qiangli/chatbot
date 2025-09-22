@@ -127,8 +127,6 @@ async function sendMessage(message: Message): Promise<WsMessage> {
     message.content.filter((part) => part.type == "text"),
   ).join("\n");
 
-  const apiKeys = localStorage.getItem("api-keys");
-
   const req = createMessage(
     message.id,
     JSON.stringify({
@@ -136,7 +134,6 @@ async function sendMessage(message: Message): Promise<WsMessage> {
       format: "chatbot",
       content: content,
       parts: parts,
-      apiKeys: apiKeys,
     }),
   );
   const resp = sendWsMessage(req);

@@ -5,24 +5,6 @@ import { v4 as uuidv4 } from "uuid"
 
 // manager.ts
 
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
-// manager.ts
-
 /**
  * Message format
  * https://github.com/qiangli/ai/blob/main/internal/hub/api/message.go
@@ -32,7 +14,8 @@ type WsMessage = {
   recipient: string
   payload: string
 
-  id?: string
+  id: string
+
   sender?: string
   action?: string
   reference?: string

@@ -71,8 +71,8 @@ export default class CustomProvider implements Provider {
 function createMessage(id: string, payload: string): WsMessage {
   const msg: WsMessage = {
     id: id,
-    type: "hub",
-    recipient: "ai",
+    type: 'hub',
+    recipient: 'ai',
     payload: payload,
   };
 
@@ -83,8 +83,8 @@ function sendMessage(message: Message): Promise<WsMessage> {
   const req = createMessage(
     message.id,
     JSON.stringify({
-      version: "1",
-      format: "chatbot",
+      version: '1',
+      format: 'chatbot',
       content: message.content,
       parts: null,
     }),

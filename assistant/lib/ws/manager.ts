@@ -12,7 +12,8 @@ type WsMessage = {
   recipient: string;
   payload: string;
 
-  id?: string;
+  id: string;
+
   sender?: string;
   action?: string;
   reference?: string;

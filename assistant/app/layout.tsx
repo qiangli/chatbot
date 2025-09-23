@@ -26,14 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <CustomRuntimeProvider>
-      <html lang="en">
-        <head>
-          <base href="/" />
-        </head>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang="en">
+      <head>
+        <base href="/" />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <CustomRuntimeProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -42,8 +42,8 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </body>
-      </html>
-    </CustomRuntimeProvider>
+        </CustomRuntimeProvider>
+      </body>
+    </html>
   );
 }

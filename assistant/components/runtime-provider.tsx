@@ -20,19 +20,24 @@ export function CustomRuntimeProvider({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const runtime = useLocalRuntime(new CustomModelAdapter({}), {
-    adapters: {
-      attachments: new CompositeAttachmentAdapter([
-        // new SimpleImageAttachmentAdapter(),
-        new ImageAdapter(),
-        // new SimpleTextAttachmentAdapter(),
-        new TextAdapter(),
-        //
-        new PDFAdapter(),
-      ]),
-      speech: new WebSpeechSynthesisAdapter(),
+  const runtime = useLocalRuntime(
+    new CustomModelAdapter({
+      debug: true,
+    }),
+    {
+      adapters: {
+        attachments: new CompositeAttachmentAdapter([
+          // new SimpleImageAttachmentAdapter(),
+          new ImageAdapter(),
+          // new SimpleTextAttachmentAdapter(),
+          new TextAdapter(),
+          //
+          new PDFAdapter(),
+        ]),
+        speech: new WebSpeechSynthesisAdapter(),
+      },
     },
-  });
+  );
   const [runtimeConfig, setRuntimeConfig] = useState({
     senderId: "",
     hubUrl: "",

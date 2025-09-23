@@ -10,7 +10,7 @@ update:
     pnpm update
 
 dev:
-    pnpm dev
+   PAGES_BASE_PATH=/chat CHATBOT_TARGET=dev pnpm dev
 
 build: build-web
 

@@ -6,11 +6,11 @@ import type {
   ChatModelRunOptions,
   ChatModelAdapter,
   ChatModelRunResult,
+  ThreadUserMessagePart,
 } from "@assistant-ui/react";
+import { v4 as uuidv4 } from "uuid";
 
-import type { ThreadUserMessagePart } from "@assistant-ui/react";
-
-import { type WsMessage, sendWsMessage } from "./manager";
+import { type WsMessage, cancelWsMessage, sendWsMessage } from "./manager";
 
 type CustomProviderConfig = {
   baseUrl?: string;
@@ -25,38 +25,67 @@ type CustomProviderConfig = {
  * https://www.assistant-ui.com/docs/runtimes/custom/local#localruntimeoptions
  */
 class CustomModelAdapter implements ChatModelAdapter {
+  // console log on/off
   private debug: boolean = false;
 
   public constructor(config: CustomProviderConfig) {
     this.debug = config.debug ?? true;
   }
 
-  public async run(options: ChatModelRunOptions): Promise<ChatModelRunResult> {
-    const { messages } = options;
+  log(message?: string, ...params: unknown[]) {
     if (this.debug) {
-      console.log("[CustomProvider] Request:", {
-        messages: messages,
-      });
+      console.log(message, params);
+    }
+  }
+
+  public async run(options: ChatModelRunOptions): Promise<ChatModelRunResult> {
+    const { messages, abortSignal } = options;
+
+    this.log("[CustomProvider] Request:", { messages: messages });
+
+    // Error handling for when the operation is aborted
+    if (abortSignal.aborted) {
+      this.log("[CustomProvider] abort signal");
+      return this.reply("Request aborted");
     }
 
-    // TODO
-    // Get only the last message
-    const lastMessage = messages.slice(-1);
-    if (lastMessage.length === 0) {
-      return this.reply("no input");
-    }
+    // send/cancel message id
+    const id = uuidv4();
 
-    for (const msg of lastMessage) {
-      if (msg.role !== "user") {
-        if (this.debug) {
-          console.log("skipping non user message", msg);
-        }
-        continue;
+    // Listen for the abort event
+    const abortHandler = () => {
+      this.log("[CustomProvider] canceling...");
+      const resp = cancelMessage(id);
+      this.log("[CustomProvider] cancel response:", resp);
+    };
+
+    abortSignal.addEventListener("abort", abortHandler);
+
+    try {
+      const lastMessage = messages.slice(-1);
+      if (lastMessage.length === 0) {
+        return this.reply("no input");
       }
-      return this.handleMessage(msg);
-    }
 
-    return this.reply("");
+      for (const msg of lastMessage) {
+        if (msg.role !== "user") {
+          this.log("skipping non user message", msg);
+          continue;
+        }
+
+        const resp = await sendMessage(id, msg);
+        this.log("[CustomProvider] send response:", resp);
+
+        return this.reply(resp.payload);
+      }
+
+      return this.reply("");
+    } catch (err) {
+      console.error("Failed to send", err);
+      return this.reply(`Failed to send: ${err}`);
+    } finally {
+      abortSignal.removeEventListener("abort", abortHandler);
+    }
   }
 
   reply(text: string) {
@@ -68,21 +97,6 @@ class CustomModelAdapter implements ChatModelAdapter {
         },
       ],
     }) as Promise<ChatModelRunResult>;
-  }
-
-  async handleMessage(msg: Message): Promise<ChatModelRunResult> {
-    try {
-      const resp = await sendMessage(msg);
-      if (this.debug) {
-        console.log("[CustomProvider] response:", resp);
-      }
-      return this.reply(resp.payload);
-    } catch (err) {
-      if (this.debug) {
-        console.error("failed to send", err);
-      }
-      return this.reply(`Failed to send message: ${err}`);
-    }
   }
 }
 
@@ -97,7 +111,7 @@ function createMessage(id: string, payload: string): WsMessage {
   return msg;
 }
 
-async function sendMessage(message: Message): Promise<WsMessage> {
+async function sendMessage(id: string, message: Message): Promise<WsMessage> {
   // Convert message parts to a text content appropriate for websocket message
   const c2s = (tm: ThreadUserMessagePart[]) => {
     return tm.map((part) => {
@@ -128,16 +142,30 @@ async function sendMessage(message: Message): Promise<WsMessage> {
   ).join("\n");
 
   const req = createMessage(
-    message.id,
+    id,
     JSON.stringify({
       version: "1",
       format: "chatbot",
+      id: message.id,
       content: content,
       parts: parts,
     }),
   );
+
   const resp = sendWsMessage(req);
   return resp;
+}
+
+function cancelMessage(id: string) {
+  const req: WsMessage = {
+    id: id,
+    type: "hub",
+    recipient: "ai",
+    action: "cancel",
+    payload: "{}",
+  };
+
+  cancelWsMessage(req);
 }
 
 export default CustomModelAdapter;

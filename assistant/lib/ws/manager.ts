@@ -12,7 +12,8 @@ type WsMessage = {
   recipient: string;
   payload: string;
 
-  id: string;
+  // if not set, a uuid is auto assigned.
+  id?: string;
 
   sender?: string;
   action?: string;
@@ -187,10 +188,10 @@ class WSManager {
       } catch (e) {
         console.warn(e);
       }
-      // this.webSocket.onclose =
-      //   this.webSocket.onmessage =
-      //   this.webSocket.onerror =
-      //   null;
+      this.webSocket.onclose =
+        this.webSocket.onmessage =
+        this.webSocket.onerror =
+          null;
       this.webSocket = null;
     }
   }
@@ -231,19 +232,59 @@ class WSManager {
 
   dispatchMessage(event: MessageEvent) {
     try {
-      const msg: WsMessage = JSON.parse(event.data);
-      const key = msg.reference;
-      if (key && msg.type === "response" && this.pending[key]) {
-        this.pending[key].resolve(msg);
-        clearTimeout(this.pending[key].timeout);
-        delete this.pending[key];
-      } else {
-        console.log("[WS] discarded", msg);
-      }
+      const messages = event.data.split("\n");
+      messages.forEach((message: string) => {
+        if (message.trim()) {
+          const msg: WsMessage = JSON.parse(message);
+          const key = msg.reference;
+          if (key && msg.type === "response" && this.pending[key]) {
+            this.pending[key].resolve(msg);
+            clearTimeout(this.pending[key].timeout);
+            delete this.pending[key];
+          } else {
+            if (msg.sender === "logger") {
+              console.log("[WS] log:", msg);
+            } else {
+              console.log("[WS] discarded", msg);
+            }
+          }
+        }
+      });
     } catch (e) {
       console.warn(e);
+      console.log("event.data:>>>|", event.data, "|<<<");
     }
   }
+
+  cancelMsMessage = (message: WsMessage) => {
+    if (!message.id) {
+      return;
+    }
+    if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
+      console.warn("WebSocket is not open. Cannot cancel.");
+      return;
+    }
+
+    const pendingMessage = this.pending[message.id];
+    if (!pendingMessage) {
+      console.warn("Message ID not found in pending list. Cannot cancel.");
+      return;
+    }
+
+    message.sender = this.sender;
+    this.webSocket.send(JSON.stringify(message));
+
+    clearTimeout(pendingMessage.timeout);
+    pendingMessage.resolve({
+      type: "response",
+      recipient: this.sender,
+      payload: "Request canceled.",
+      reference: message.id,
+    });
+
+    delete this.pending[message.id];
+    console.log(`[WS] Canceled message with ID: ${message.id}`);
+  };
 
   // start or restart hub
   startHub(url: string, sender: string) {
@@ -268,5 +309,6 @@ class WSManager {
 const wsManager = new WSManager();
 
 const sendWsMessage = wsManager.sendWsMessage;
+const cancelWsMessage = wsManager.cancelMsMessage;
 
-export { wsManager as default, type WsMessage, sendWsMessage };
+export { wsManager as default, type WsMessage, sendWsMessage, cancelWsMessage };

@@ -70,7 +70,7 @@ class CustomModelAdapter implements ChatModelAdapter {
         for await (const part of streamMessage(msg, abortSignal)) {
           if (part.sender == "logger") {
             text += `>${part.payload}\\\n`;
-            endblock = ">.\n\n";
+            endblock = ">🎉\n\n";
           } else {
             text += endblock;
             text += part.payload;

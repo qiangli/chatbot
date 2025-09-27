@@ -5,20 +5,20 @@ const target = process.env.CHATBOT_TARGET;
 
 switch (target) {
   case "web":
-    outDir = "../../web/dist/chatbot/";
+    outDir = "../../hub/web/dist/chatbot/";
     break;
-  case "vscode-sidebar":
-    outDir = "../extension/vscode/sidebar/dist/";
-    break;
-  case "chrome-toolbar":
-    outDir = "../extension/chrome/toolbar/dist";
-    break;
+  // case "vscode-sidebar":
+  //   outDir = "../extension/vscode/sidebar/dist/";
+  //   break;
+  // case "chrome-toolbar":
+  //   outDir = "../extension/chrome/toolbar/dist";
+  //   break;
   // case "chrome-sidepanel":
   //   outDir = "../extension/chrome/sidepanel/dist";
   //   break;
-  case "electron-tray":
-    outDir = "../electron/hub/dist";
-    break;
+  // case "electron-tray":
+  //   outDir = "../electron/hub/dist";
+  //   break;
   default:
     // throw new Error(`invalid target: ${target}`);
     outDir = "dist/";

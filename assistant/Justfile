@@ -18,11 +18,11 @@ build-web:
     PAGES_BASE_PATH=/chat CHATBOT_TARGET=web pnpm build
 
 # Build vscode sidebar
-build-sidebar:
-    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=vscode-sidebar pnpm build
+# build-sidebar:
+#     PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=vscode-sidebar pnpm build
 
-build-toolbar:
-    PAGES_BASE_PATH= CHATBOT_TARGET=chrome-toolbar pnpm build
+# build-toolbar:
+#     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-toolbar pnpm build
 
 # 
 # see  chatbot/extension/chrome/sidepanel2/ui/Justfile
@@ -30,9 +30,9 @@ build-toolbar:
 #     PAGES_BASE_PATH= CHATBOT_TARGET=chrome-sidepanel pnpm build
 #
 
-# Build electron tray app
-build-tray:
-    PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray NEXT_PUBLIC_SENDER_ID=tray pnpm build
+# # Build electron tray app
+# build-tray:
+#     PAGES_BASE_PATH="/{BASE_URL}" CHATBOT_TARGET=electron-tray NEXT_PUBLIC_SENDER_ID=tray pnpm build
 
 package:
     pnpm package

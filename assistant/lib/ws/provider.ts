@@ -65,8 +65,16 @@ class CustomModelAdapter implements ChatModelAdapter {
         }
 
         let text = "";
+        // workaround
+        let endblock = "";
         for await (const part of streamMessage(msg, abortSignal)) {
-          text += part.payload;
+          if (part.sender == "logger") {
+            text += `>${part.payload}\\\n`;
+            endblock = ">.\n\n";
+          } else {
+            text += endblock;
+            text += part.payload;
+          }
           yield { content: [{ type: "text", text }] };
         }
 

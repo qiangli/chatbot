@@ -13,7 +13,7 @@ type WsMessage = {
   payload: string;
 
   // if not set, a uuid is auto assigned.
-  id?: string;
+  id: string;
 
   sender?: string;
   action?: string;
@@ -44,6 +44,7 @@ class WSManager {
       resolve: (value: WsMessage) => void;
       reject: (reason?: string) => void;
       timeout?: ReturnType<typeof setTimeout>;
+      controller?: ReadableStreamDefaultController<WsMessage>;
     }
   > = {};
 
@@ -197,7 +198,10 @@ class WSManager {
   }
 
   // send request and wait for response
-  sendWsMessage = (message: WsMessage): Promise<WsMessage> => {
+  sendWsMessage = (
+    message: WsMessage,
+    abortSignal: AbortSignal,
+  ): Promise<WsMessage> => {
     message.sender = this.sender;
 
     return new Promise((resolve, reject) => {
@@ -210,23 +214,97 @@ class WSManager {
         reject(new Error("Sender is not set"));
         return;
       }
-      if (!message.id) {
-        message.id = uuidv4();
-      }
+
+      const onAbort = () => {
+        message.action = "cancel";
+        console.log("[WS] sending cancel message:", message);
+        this.webSocket?.send(JSON.stringify(message));
+
+        if (this.pending[message.id]) {
+          const { reject, timeout } = this.pending[message.id];
+          clearTimeout(timeout);
+          reject("Request aborted");
+          delete this.pending[message.id];
+        }
+
+        abortSignal.removeEventListener("abort", onAbort);
+      };
+
+      abortSignal.addEventListener("abort", onAbort);
+
       this.pending[message.id] = {
         resolve,
         reject,
         timeout: setTimeout(() => {
-          if (message.id) {
-            delete this.pending[message.id];
-          }
-
           reject(new Error("Timeout waiting for response"));
+          delete this.pending[message.id];
         }, RESPONSE_TIMEOUT),
       };
 
       console.log("[WS] sending:", message);
       this.webSocket.send(JSON.stringify(message));
+    });
+  };
+
+  // send message and stream the response
+  streamWsMessage = (
+    message: WsMessage,
+    abortSignal: AbortSignal,
+  ): Promise<ReadableStream<WsMessage>> => {
+    message.sender = this.sender;
+
+    return new Promise((resolve, reject) => {
+      if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
+        reject(new Error("Service unavailable. Please try again later."));
+        return;
+      }
+
+      if (!message.sender) {
+        reject(new Error("Sender is not set"));
+        return;
+      }
+
+      const stream = new ReadableStream<WsMessage>({
+        start: (controller) => {
+          this.pending[message.id] = {
+            resolve: (response: WsMessage) => {
+              controller.enqueue(response);
+            },
+            reject: (error?: string) => {
+              controller.error(error);
+              delete this.pending[message.id];
+            },
+            timeout: setTimeout(() => {
+              controller.error(new Error("Timeout waiting for response"));
+              delete this.pending[message.id];
+            }, RESPONSE_TIMEOUT),
+            controller,
+          };
+
+          const onAbort = () => {
+            message.action = "cancel";
+            console.log("[WS] sending cancel message:", message);
+            this.webSocket?.send(JSON.stringify(message));
+
+            if (this.pending[message.id]) {
+              const { reject, timeout } = this.pending[message.id];
+              reject("Operation aborted");
+              clearTimeout(timeout);
+              controller.error(new Error("Operation aborted"));
+              delete this.pending[message.id];
+            }
+
+            abortSignal.removeEventListener("abort", onAbort);
+          };
+
+          abortSignal.addEventListener("abort", onAbort);
+        },
+      });
+
+      console.log("[WS] sending:", message);
+      this.webSocket.send(JSON.stringify(message));
+
+      resolve(stream);
     });
   };
 
@@ -237,16 +315,18 @@ class WSManager {
         if (message.trim()) {
           const msg: WsMessage = JSON.parse(message);
           const key = msg.reference;
-          if (key && msg.type === "response" && this.pending[key]) {
+          if (key && this.pending[key]) {
+            console.log("[WS] pending", msg);
             this.pending[key].resolve(msg);
-            clearTimeout(this.pending[key].timeout);
-            delete this.pending[key];
-          } else {
-            if (msg.sender === "logger") {
-              console.log("[WS] log:", msg);
-            } else {
-              console.log("[WS] discarded", msg);
+
+            if (msg.type === "response") {
+              const { timeout, controller } = this.pending[key];
+              clearTimeout(timeout);
+              controller?.close();
+              delete this.pending[key];
             }
+          } else {
+            console.log("[WS] discarded", msg);
           }
         }
       });
@@ -255,36 +335,6 @@ class WSManager {
       console.log("event.data:>>>|", event.data, "|<<<");
     }
   }
-
-  cancelMsMessage = (message: WsMessage) => {
-    if (!message.id) {
-      return;
-    }
-    if (!this.webSocket || this.webSocket.readyState !== WebSocket.OPEN) {
-      console.warn("WebSocket is not open. Cannot cancel.");
-      return;
-    }
-
-    const pendingMessage = this.pending[message.id];
-    if (!pendingMessage) {
-      console.warn("Message ID not found in pending list. Cannot cancel.");
-      return;
-    }
-
-    message.sender = this.sender;
-    this.webSocket.send(JSON.stringify(message));
-
-    clearTimeout(pendingMessage.timeout);
-    pendingMessage.resolve({
-      type: "response",
-      recipient: this.sender,
-      payload: "Request canceled.",
-      reference: message.id,
-    });
-
-    delete this.pending[message.id];
-    console.log(`[WS] Canceled message with ID: ${message.id}`);
-  };
 
   // start or restart hub
   startHub(url: string, sender: string) {
@@ -309,6 +359,6 @@ class WSManager {
 const wsManager = new WSManager();
 
 const sendWsMessage = wsManager.sendWsMessage;
-const cancelWsMessage = wsManager.cancelMsMessage;
+const streamWsMessage = wsManager.streamWsMessage;
 
-export { wsManager as default, type WsMessage, sendWsMessage, cancelWsMessage };
+export { wsManager as default, type WsMessage, sendWsMessage, streamWsMessage };

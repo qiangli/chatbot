@@ -10,7 +10,7 @@ import type {
 } from "@assistant-ui/react";
 import { v4 as uuidv4 } from "uuid";
 
-import { type WsMessage, cancelWsMessage, sendWsMessage } from "./manager";
+import { type WsMessage, streamWsMessage } from "./manager";
 
 type CustomProviderConfig = {
   baseUrl?: string;
@@ -38,33 +38,24 @@ class CustomModelAdapter implements ChatModelAdapter {
     }
   }
 
-  public async run(options: ChatModelRunOptions): Promise<ChatModelRunResult> {
+  public async *run(
+    options: ChatModelRunOptions,
+  ): AsyncGenerator<ChatModelRunResult> {
     const { messages, abortSignal } = options;
 
     this.log("[CustomProvider] Request:", { messages: messages });
 
-    // Error handling for when the operation is aborted
     if (abortSignal.aborted) {
       this.log("[CustomProvider] abort signal");
-      return this.reply("Request aborted");
+      yield this.reply("Request aborted");
+      return;
     }
-
-    // send/cancel message id
-    const id = uuidv4();
-
-    // Listen for the abort event
-    const abortHandler = () => {
-      this.log("[CustomProvider] canceling...");
-      const resp = cancelMessage(id);
-      this.log("[CustomProvider] cancel response:", resp);
-    };
-
-    abortSignal.addEventListener("abort", abortHandler);
 
     try {
       const lastMessage = messages.slice(-1);
       if (lastMessage.length === 0) {
-        return this.reply("no input");
+        yield this.reply("no input");
+        return;
       }
 
       for (const msg of lastMessage) {
@@ -73,18 +64,18 @@ class CustomModelAdapter implements ChatModelAdapter {
           continue;
         }
 
-        const resp = await sendMessage(id, msg);
-        this.log("[CustomProvider] send response:", resp);
+        let text = "";
+        for await (const part of streamMessage(msg, abortSignal)) {
+          text += part.payload;
+          yield { content: [{ type: "text", text }] };
+        }
 
-        return this.reply(resp.payload);
+        return;
       }
-
-      return this.reply("");
+      yield this.reply("");
     } catch (err) {
       console.error("Failed to send", err);
-      return this.reply(`Failed to send: ${err}`);
-    } finally {
-      abortSignal.removeEventListener("abort", abortHandler);
+      yield this.reply(`Failed to send: ${err}`);
     }
   }
 
@@ -100,18 +91,7 @@ class CustomModelAdapter implements ChatModelAdapter {
   }
 }
 
-function createMessage(id: string, payload: string): WsMessage {
-  const msg: WsMessage = {
-    id: id,
-    type: "hub",
-    recipient: "ai",
-    payload: payload,
-  };
-
-  return msg;
-}
-
-async function sendMessage(id: string, message: Message): Promise<WsMessage> {
+function createWsMessage(message: Message): WsMessage {
   // Convert message parts to a text content appropriate for websocket message
   const c2s = (tm: ThreadUserMessagePart[]) => {
     return tm.map((part) => {
@@ -141,31 +121,36 @@ async function sendMessage(id: string, message: Message): Promise<WsMessage> {
     message.content.filter((part) => part.type == "text"),
   ).join("\n");
 
-  const req = createMessage(
-    id,
-    JSON.stringify({
+  const req: WsMessage = {
+    id: uuidv4(),
+    type: "hub",
+    recipient: "ai",
+    action: "run",
+    payload: JSON.stringify({
       version: "1",
       format: "chatbot",
       id: message.id,
       content: content,
       parts: parts,
     }),
-  );
-
-  const resp = sendWsMessage(req);
-  return resp;
-}
-
-function cancelMessage(id: string) {
-  const req: WsMessage = {
-    id: id,
-    type: "hub",
-    recipient: "ai",
-    action: "cancel",
-    payload: "{}",
   };
 
-  cancelWsMessage(req);
+  return req;
+}
+
+async function* streamMessage(msg: Message, signal: AbortSignal) {
+  const req = createWsMessage(msg);
+  const stream = await streamWsMessage(req, signal);
+  const reader = stream.getReader();
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
 }
 
 export default CustomModelAdapter;
